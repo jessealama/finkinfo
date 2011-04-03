@@ -1,6 +1,6 @@
 Package: sbcl
 Architecture: x86_64
-Version: 1.0.46
+Version: 1.0.47
 Revision: 1
 License: BSD
 Description: ANSI Common Lisp implementation
@@ -17,7 +17,7 @@ Recommends: gnupg | gnupg-idea | gnupg-testing
 
 Source: mirror:sourceforge:sbcl/sbcl-%v-source.tar.bz2
 Source2: mirror:sourceforge:sbcl/sbcl-1.0.29-x86_64-darwin-binary-r2.tar.bz2
-Source-MD5: 83f094aa36edce2d69214330890f05e5
+Source-MD5: 2e90fca5ffec9ce19ed232b24f09cd0a
 Source2-MD5: 47c99c60ec44e57070807c0890ba1c90
 
 SourceDirectory: %n-%v
