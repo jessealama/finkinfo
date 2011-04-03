@@ -1,0 +1,173 @@
+Package: acl2
+Homepage: http://www.cs.utexas.edu/users/moore/acl2/
+Description: Model systems and prove properties of them
+Version: 3.3
+License: GPL
+Revision: 1
+Source: http://www.cs.utexas.edu/users/moore/%n/v3-3/distrib/%n.tar.gz
+Source-MD5: ec026b72d47d839539ef152ba0784c27
+SourceDirectory: %n-sources
+PatchScript: sed 's|@PREFIX@|%p|g' < %a/%n.patch | patch -p1
+DocFiles: LICENSE
+InfoDocs: acl2-doc-emacs.info
+Depends: sbcl
+Recommends: acl2-books
+CompileScript: <<
+  echo "Compiling ACL2..."
+  make LISP=sbcl
+  echo "Compiling ACL2...done."
+  echo "Compiling ACL2 books (this may take some time)..."
+  make regression
+  echo "Compiling ACL2 books...done"
+<<
+InstallScript: <<
+  mkdir -p %i/bin
+  install -m 755 saved_acl2 %i/bin/acl2
+
+  mkdir -p %i/share/info
+  install -m 644 doc/EMACS/*.info* %i/share/info
+
+  mkdir -p %i/share/acl2/doc
+  cp doc/HTML/*.html %i/share/acl2/doc
+
+  mkdir -p %i/share/acl2/src
+  cp *.lisp %i/share/acl2/src
+  cp TAGS %i/share/acl2/src
+
+  mkdir -p %i/share/emacs/site-lisp/acl2
+  cp interface/emacs/*.el %i/share/emacs/site-lisp/acl2
+  cp emacs/*.el %i/share/emacs/site-lisp/acl2
+
+  mkdir -p %i/lib/emacsen-common/packages/install
+  mkdir -p %i/lib/emacsen-common/packages/remove
+  install -m 755 fink/emacsen-install %i/lib/emacsen-common/packages/install/%n
+  install -m 755 fink/emacsen-remove %i/lib/emacsen-common/packages/remove/%n 
+
+  mkdir -p %i/etc/emacs/site-start.d
+  install -m 644 fink/50acl2.el %i/etc/emacs/site-start.d
+
+  # make book directories and install lisp files in them
+  cp -R books %i/share/acl2
+<<
+DescDetail: <<
+ACL2 is both a programming language in which you can model computer
+systems and a tool to help you prove properties of those models.
+
+ACL2 is part of the Boyer-Moore family of provers.
+<<
+Maintainer: Jesse Alama <alama@stanford.edu>
+SplitOff: <<
+  Package: acl2-source
+  Description: Source code for ACL2
+  Files: share/acl2/src
+<<
+SplitOff2: <<
+  Package: acl2-book-certs
+  Description: Certificates for the ACL2 books
+  Files: <<
+    share/acl2/books/arithmetic/*.cert
+    share/acl2/books/arithmetic-2/floor-mod/*.cert
+    share/acl2/books/arithmetic-2/meta/*.cert
+    share/acl2/books/arithmetic-2/pass1/*.cert
+    share/acl2/books/arithmetic-3/bind-free/*.cert
+    share/acl2/books/arithmetic-3/extra/*.cert
+    share/acl2/books/arithmetic-3/floor-mod/*.cert
+    share/acl2/books/arithmetic-3/pass1/*.cert
+    share/acl2/books/arithmetic-3/*.cert
+    share/acl2/books/bdd/*.cert
+    share/acl2/books/clause-processors/*.cert
+    share/acl2/books/concurrent-programs/bakery/*.cert
+    share/acl2/books/concurrent-programs/german-protocol/*.cert
+    share/acl2/books/cowles/*.cert
+    share/acl2/books/data-structures/*.cert
+    share/acl2/books/data-structures/memories/*.cert
+    share/acl2/books/deduction/passmore/*.cert
+    share/acl2/books/defexec/dag-unification/*.cert
+    share/acl2/books/defexec/defpun-exec/*.cert
+    share/acl2/books/defexec/find-path/*.cert
+    share/acl2/books/defexec/find-path/graph/*.cert
+    share/acl2/books/defexec/ordinals/*.cert
+    share/acl2/books/defexec/other-apps/misc/*.cert
+    share/acl2/books/defexec/other-apps/qsort/*.cert
+    share/acl2/books/defexec/other-apps/records/*.cert
+    share/acl2/books/defexec/reflexive/*.cert
+    share/acl2/books/finite-set-theory/osets/*.cert
+    share/acl2/books/finite-set-theory/*.cert
+    share/acl2/books/hints/*.cert
+    share/acl2/books/ihs/*.cert
+    share/acl2/books/make-event/*.cert
+    share/acl2/books/make-event/embedded-defaxioms/*.cert
+    share/acl2/books/meta/*.cert
+    share/acl2/books/misc/*.cert
+    share/acl2/books/misc/misc2/*.cert
+    share/acl2/books/ordinals/*.cert
+    share/acl2/books/powerlists/*.cert
+    share/acl2/books/proofstyles/c2i/*.cert
+    share/acl2/books/proofstyles/compose/*.cert
+    share/acl2/books/proofstyles/i2c/*.cert
+    share/acl2/books/quadratic-reciprocity/*.cert
+    share/acl2/books/rtl/rel1/lib1/*.cert
+    share/acl2/books/rtl/rel1/lib3/*.cert
+    share/acl2/books/rtl/rel1/support/*.cert
+    share/acl2/books/rtl/rel1/support/fadd/*.cert
+    share/acl2/books/rtl/rel4/arithmetic/*.cert
+    share/acl2/books/rtl/rel4/lib/*.cert
+    share/acl2/books/rtl/rel4/support/*.cert
+    share/acl2/books/rtl/rel4/user/*.cert
+    share/acl2/books/rtl/rel5/arithmetic/*.cert
+    share/acl2/books/rtl/rel5/lib/*.cert
+    share/acl2/books/rtl/rel5/support/*.cert
+    share/acl2/books/rtl/rel5/user/*.cert
+    share/acl2/books/rtl/rel7/arithmetic/*.cert
+    share/acl2/books/rtl/rel7/lib/*.cert
+    share/acl2/books/rtl/rel7/support/lib1/*.cert
+    share/acl2/books/rtl/rel7/support/lib1.delta1/*.cert
+    share/acl2/books/rtl/rel7/support/support/*.cert
+    share/acl2/books/rtl/rel7/support/top/*.cert
+    share/acl2/books/rtl/rel7/user/*.cert
+    share/acl2/books/symbolic/generic/*.cert
+    share/acl2/books/symbolic/m5/*.cert
+    share/acl2/books/symbolic/tiny-fib/*.cert
+    share/acl2/books/symbolic/tiny-triangle/*.cert
+    share/acl2/books/textbook/chap10/*.cert
+    share/acl2/books/textbook/chap11/*.cert
+    share/acl2/books/textbook/chap3/*.cert
+    share/acl2/books/textbook/chap4/*.cert
+    share/acl2/books/textbook/chap5/*.cert
+    share/acl2/books/textbook/chap6/*.cert
+    share/acl2/books/unicode/*.cert
+  <<
+<<
+SplitOff3: <<
+  Package: acl2-books
+  Description: ACL2 extensions (`books')
+  Files: share/acl2/books
+<<
+SplitOff4: <<
+  Package: acl2-emacs
+  Description: Emacs interface for ACL2
+  Files: <<
+    share/emacs/site-lisp/acl2/*.el 
+    lib/emacsen-common/packages/install/%N
+    lib/emacsen-common/packages/remove/%N
+    etc/emacs/site-start.d/50acl2.el
+  <<
+  PostInstScript: %p/lib/emacsen-common/emacs-package-install %N
+  PreRmScript: %p/lib/emacsen-common/emacs-package-remove %N
+  DescDetail: <<
+This package provides some useful commands for doing ACL2 work within
+emacs.
+<< 
+  DescUsage: <<
+  This fink package is not provided as a major mode; instead, loading
+`emacs-acl2.el' will invoke a shell and set up some useful keybindings
+for dealing with ACL2.  For simplity, we have defined a new command,
+`acl2', that will load the file.  Consult emacs-acl2.el for more
+information.
+  <<
+<<
+SplitOff5: <<
+  Package: acl2-doc
+  Description: Documentation for the ACL2 system in HTML format
+  Files: share/acl2/doc
+<<

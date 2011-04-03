@@ -1,0 +1,215 @@
+Package: emacs22-carbon
+Version: 22.0.99
+Revision: 1
+BuildDepends: libncurses5
+Depends: emacsen-common, ncurses, libncurses5-shlibs, passwd
+Provides: emacsen
+Source: ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-%v.tar.gz
+Source-MD5: f0f6c5e4163113f5e292e7b03b078aa9
+Description: Flexible real-time text editor (Aqua native)
+DocFiles: AUTHORS COPYING README mac/README:mac.README
+ConfFiles: %p/var/games/%n/tetris-scores %p/var/games/%n/snake-scores
+AppBundles: mac/Emacs22.app
+PatchScript: <<
+sed -e 's|@PREFIX@|%p|g' \
+    -e 's|@EMACS-FLAVOR@|%n|g' \
+    -e 's|@EMACS-VERSION@|%v-carbon|g' < %a/%n.patch | patch -p1
+<<
+SetCPPFLAGS: -DUSE_ATSUI -DUSE_MAC_TSM
+ConfigureParams: --infodir='${prefix}/share/info' --mandir='${prefix}/share/man' --libexecdir='${prefix}/lib' --with-carbon --without-x
+CompileScript: <<
+#!/bin/sh -ev
+
+./configure %c
+make bootstrap
+
+# Compile our custom file
+EMACSLOADPATH=$PWD/lisp src/emacs -batch --no-init-file --no-site-file --multibyte -f batch-byte-compile 01carbon-emacs.el
+<<
+InstallScript: <<
+#!/bin/sh -ev
+
+# Install everything except Emacs.app
+make install prefix=%i 
+
+rm %i/bin/emacs %i/bin/emacs-%v
+install -m 755 emacs.bash %i/bin/emacs-%v-carbon
+ln -s emacs-%v %i/bin/%n
+ln -s emacs-%v %i/bin/Emacs22.app
+
+# Move some files to avoid conflicts with other emacsen
+for f in %i/share/man/man1/{emacs.1,ctags.1,emacsclient.1,etags.1} \
+        %i/bin/{ctags,emacsclient,etags} \
+        %i/bin/{b2m,rcs-checkin,ebrowse,grep-changelog}; do
+    mv "$f" "$f.%n"
+done
+
+# Set up site-lisp and site-start.d
+mkdir -p %i/etc/emacs
+mkdir -p %i/etc/%n/site-start.d
+mkdir -p %i/share/%n
+mv %i/share/emacs/%v/site-lisp %i/share/%n/
+pushd %i/share/emacs/%v
+ln -s ../../%n/site-lisp site-lisp
+popd
+
+# Wrapper script for command-line invocation 
+install -m 755 emacs.bash %i/bin/emacs-%v-carbon
+
+# Info
+mv %i/share/info %i/share/info-%n
+mkdir -p %i/share/info
+mv %i/share/info-%n %i/share/info/%n
+rm %i/share/info/%n/dir %i/share/info/%n/dir.old
+chmod 755 fix-info
+chmod 755 mangle-info
+./fix-info %i/share/info/%n
+
+chmod 755 %i/share/emacs/%v/leim/ja-dic
+chmod 755 %i/share/emacs/%v/leim/quail
+# rm %i/share/emacs/site-lisp/subdirs.el
+
+# Rename application bundle to avoid conflict with other potential emacsen
+mv mac/Emacs.app mac/Emacs22.app
+
+# Patch Emacs22.app to load %p/bin/init.sh
+ebd="mac/Emacs22.app/Contents/MacOS"
+mv "$ebd/Emacs" "$ebd/Emacs.bin"
+install -m 755 Emacs.finkwrap "$ebd/Emacs"
+<<
+PostInstScript: <<
+libdir=%p/lib/emacs/%v-carbon/%m-apple-darwin`uname -r`
+
+chown games:admin $libdir/update-game-score
+chmod 4755 $libdir/update-game-score
+chown -R games:admin %p/var/games/%n
+mkdir -p %p/etc/lisp/emacs/%v-carbon/site-lisp
+mkdir -p %p/etc/lisp/emacs/site-lisp
+
+# Priorities are set low so that non-carbon emacsen are not disturbed...
+update-alternatives --install %p/bin/emacs emacs %p/bin/%n 35 \
+	--slave %p/share/man/man1/emacs.1 emacs.1 %p/share/man/man1/emacs.1.%n
+update-alternatives --install %p/bin/ctags ctags %p/bin/ctags.%n 35 \
+	--slave %p/share/man/man1/ctags.1 ctags.1 %p/share/man/man1/ctags.1.%n
+update-alternatives --install %p/bin/etags etags %p/bin/etags.%n 55 \
+	--slave %p/share/man/man1/etags.1 etags.1 %p/share/man/man1/etags.1.%n
+update-alternatives \
+	--install %p/bin/emacsclient emacsclient %p/bin/emacsclient.%n 35 \
+	--slave %p/share/man/man1/emacsclient.1 emacsclient.1 \
+					%p/share/man/man1/emacsclient.1.%n
+update-alternatives --install %p/bin/b2m b2m %p/bin/b2m.%n 35
+update-alternatives \
+	--install %p/bin/rcs-checkin rcs-checkin %p/bin/rcs-checkin.%n 35
+update-alternatives --install %p/bin/ebrowse ebrowse %p/bin/ebrowse.%n 35
+update-alternatives --install %p/bin/grep-changelog grep-changelog \
+					%p/bin/grep-changelog.%n 35
+
+# Regiser ourselves with emacsen-common
+%p/lib/emacsen-common/emacs-install %n
+
+# Since we're placing our info files in a subdirectory of %p/share/info
+# we need to manually add each doc to the info dir-file
+# NOTE: list of info docs also present in prerm script and "fixinfo"
+#   included in the emacs22-carbon.patch
+for file in ada-mode autotype calc cc-mode cl dired-x ebrowse ediff \
+    efaq eintr elisp emacs emacs-mime erc eshell eudc flymake forms gnus \
+    info message mh-e mini newsticker org pcl-cvs pgg rcirc reftex sc \
+    ses sieve smtpmail speedbar tramp vip viper widget woman
+do
+  install-info --infodir=%p/share/info \
+	--section "Emacs" "Emacs" %p/share/info/%n/${file}
+done
+<<
+PreRmScript: <<
+# Manually remove all of our info docs from the dir-file
+for file in ada-mode autotype calc cc-mode cl dired-x ebrowse ediff \
+    efaq eintr elisp emacs emacs-mime erc eshell eudc flymake forms gnus \
+    info message mh-e mini newsticker org pcl-cvs pgg rcirc reftex sc \
+    ses sieve smtpmail speedbar tramp vip viper widget woman
+do
+  install-info --infodir=%p/share/info --remove-exactly %n/${file}
+done
+
+if [ $1 != "upgrade" ]; then
+  update-alternatives --remove emacs %p/bin/%n
+  update-alternatives --remove emacsclient %p/bin/emacsclient.%n
+  update-alternatives --remove ctags %p/bin/ctags.%n
+  update-alternatives --remove etags %p/bin/etags.%n
+  update-alternatives --remove b2m %p/bin/b2m.%n
+  update-alternatives --remove rcs-checkin %p/bin/rcs-checkin.%n
+  update-alternatives --remove ebrowse %p/bin/ebrowse.%n
+  %p/lib/emacsen-common/emacs-remove %n
+fi
+<<
+
+DescDetail: <<
+GNU Emacs is an extensible, customizable, self-documenting real-time
+display editor. Through its extensibility, it is actually much more
+than an editor. You can use it as a file manager, mail reader, web
+browser, and for many other tasks. Some people even use it to control
+their coffee machine.
+
+This package installs Carbon port of GNU Emacs, which can natively run
+on Mac OS X window system.  Also supports input methods for
+international languages.
+
+Use -nw option to use this emacs on terminal.
+<<
+
+DescPackaging: <<
+This .info file is essentially based on the emacs21 package by:
+Christian Swinehart <cswinehart@users.sourceforge.net>
+
+The first author of this package is:
+NAKAHASHI Ichiro <ichiro@nnip.org>
+
+update-alternatives is used for emacs, emacsclient, ctags, etags, b2m
+rcs-checkin, ebrowse, and grep-changelog to allow parallel installation 
+of emacs22 & xemacs & emacs22-carbon.
+
+Its info files are installed into the emacs22-carbon subdirectory of
+<fink-root>/share/info for the same reason.
+<<
+DescPort: <<
+You can lauch emacs22 from Finder, as well as terminal using usual
+command line syntax. For this purpose, Emacs22.app is placed on
+%p/Applications and will be symlinked to /Applications/Fink. To gain a
+better integration with the fink environments, it automatically loads
+%p/bin/init.sh at startup.
+
+I don't know why nichiro set $0 to Emacs instead of Emacs.bin.
+
+The patchfile modifies startup.el, and brings in the scripts fix-info and 
+mangle-info, in order to implement our emacs packaging system.
+
+Since this package comes from the CVS repository none of the elisp files
+are byte-compiled by default. So before making the source tarball used by
+fink the CVS version must first be `make bootstrap'ed then the .elc's
+produced are injected into a fresh copy of the source tree and tarred
+up again. If .el's are patched, .elc's are updated by `make recompile'.
+
+How to make tarball containing .elc's:
+$ cvs -d :pserver:anonymous@cvs.savannah.gnu.org:/sources/emacs login
+<password is empty>
+$ cvs -d :pserver:anonymous@cvs.savannah.gnu.org:/sources/emacs co \
+  -d emacs-%v -D "dd mm yyyy UTC" emacs
+$ cd emacs-%v
+$ ./configure --without-carbon --without-x
+$ make bootstrap MAKEINFO="LC_ALL=C %p/bin/makeinfo --force"
+$ make distclean
+<<
+DescUsage: <<
+You can launch emacs22-carbon, not just by double-clicking, but also by typing
+$ emacs22-carbon
+or
+$ Emacs22.app
+in the terminal. In this way, you can pass runtime options to emacs, e.g.
+$ emacs22-carbon --no-site-file
+
+If you want to input characters via MacIM in inline style, add your .emacs.el:
+(if (eq window-system 'mac)
+    (mac-setup-inline-input-method))
+<<
+License: GPL
+Maintainer: Jesse Alama <alama@stanford.edu>
+Homepage: http://www.gnu.org/software/emacs/emacs.html

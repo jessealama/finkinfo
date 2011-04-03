@@ -1,0 +1,29 @@
+Package: carbon-emacs-el
+Description: Emacs Lisp from the Carbon Emacs project
+Version: 2007.02.23
+Depends: redo-el, htmlize-el, emacs22-carbon
+Revision: 1
+License: GPL
+DocFiles: fink/README.fink fink/LICENSE
+Maintainer: Jesse Alama <alama@stanford.edu>
+Source: http://www.stanford.edu/~alama/%n-%v.tar.gz
+Source-MD5: c324b51765aec7c29b30976e51d39b63
+PatchScript: sed 's|@PREFIX@|%p|g' < %a/%n.patch | patch -p1
+DescDetail: <<
+<<
+DescUsage: <<
+<<
+CompileScript: <<
+<<
+InstallScript: <<
+mkdir -p %i/share/emacs/site-lisp/carbon-emacs-el
+install -m 644 *.el %i/share/emacs/site-lisp/carbon-emacs-el
+
+mkdir -p %i/lib/emacsen-common/packages/install
+mkdir -p %i/lib/emacsen-common/packages/remove
+install -m 755 fink/emacsen-install %i/lib/emacsen-common/packages/install/%n
+install -m 755 fink/emacsen-remove %i/lib/emacsen-common/packages/remove/%n
+<<
+PostInstScript: %p/lib/emacsen-common/emacs-package-install %n
+PreRmScript: %p/lib/emacsen-common/emacs-package-remove %n
+

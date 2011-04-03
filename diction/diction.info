@@ -1,0 +1,32 @@
+Package: diction
+Version: 1.11
+Revision: 1
+Maintainer: Dave Vasilevsky <vasi@users.sourceforge.net>
+DocFiles: COPYING INSTALL NEWS README
+InfoDocs: diction
+Source: mirror:gnu:%n/%n-%v.tar.gz
+ConfigureParams: --datadir=%i/share 
+Description: Identifies wording and style errors
+BuildDepends: texinfo
+CompileScript: <<
+  ./configure %c
+  makeinfo diction.texi
+<<
+InstallScript: <<
+  make install DESTDIR=%d
+  mkdir -p %i/share/info
+  install -m 644 diction.info %i/share/info/diction
+<<
+DescDetail: <<
+Diction and style are two old standard UNIX commands. Diction identifies
+wordy and commonly misused phrases. Style analyses surface characteristics
+of a document, including sentence length and other readability measures. 
+
+These programs cannot help you structure a document well, but they can
+help to avoid poor wording and compare the readability (not the
+understandability!) of your documents with others. Both commands support
+English and German documents.
+<<
+Homepage: http://www.gnu.org/software/diction/diction.html
+License: GPL
+Source-MD5: 4cbdb115c976d7141f54b223df28012e

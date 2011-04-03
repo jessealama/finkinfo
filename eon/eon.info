@@ -1,0 +1,46 @@
+Package: eon
+Description: Emacs Ontology
+Version: 1.1
+Revision: 1
+Homepage: http://dto.mamalala.org/notebook/eon.html
+Depends: emacsen
+BuildDepends: texinfo
+License: GPL
+DocFiles: COPYING README fink/README.fink
+Source: http://dto.mamalala.org/%n/%n-%v.tar.gz
+Source-MD5: 43bb2520ad60e19de4b0a1f2680a917c
+CompileScript: <<
+  makeinfo eon.texinfo
+<<
+InstallScript: <<
+
+  mkdir -p %i/share/emacs/site-lisp/eon
+  install -m 644 eon.el %i/share/emacs/site-lisp/eon
+  install -m 644 eon-guide.el %i/share/emacs/site-lisp/eon  
+
+  mkdir -p %i/share/info
+  install -m 644 eon.info %i/share/info/eon
+
+  mkdir -p %i/lib/emacsen-common/packages/install
+  mkdir -p %i/lib/emacsen-common/packages/remove
+  install -m 755 fink/emacsen-install %i/lib/emacsen-common/packages/install/%n
+  install -m 755 fink/emacsen-remove %i/lib/emacsen-common/packages/remove/%n
+
+  mkdir -p %i/etc/emacs/site-start.d
+  install -m 644 fink/50eon.el %i/etc/emacs/site-start.d
+<<
+PostInstScript: %p/lib/emacsen-common/emacs-package-install %n
+PreRmScript: %p/lib/emacsen-common/emacs-package-remove %n
+Maintainer: Jesse Alama <alama@stanford.edu>
+DescDetail: <<
+Eon adds "prototype-oriented object programming" to Emacs Lisp.  In
+this alternative view of object-orientation, there are no classes;
+instead, objects are cloned from other objects called prototypes, from
+which the new objects may inherit data and behavior. The semantics of
+inheritance, message passing, and slot lookup are similar to (and in
+part inspired by) the Io language (see http://iolanguage.com/about/)
+<<
+DescUsage: <<
+To get started with the Emacs Ontology Project, check out the
+programmers guide at %p/share/emacs/site-lisp/eon/eon-guide.el .
+<<

@@ -1,0 +1,53 @@
+Package: coq
+Version: 8.2pl1
+Revision: 1
+Source: http://www.lix.polytechnique.fr/%n/distrib/V%v/files/%n-%v.tar.gz
+Source-MD5: 36eed48bc63ada8abf27f96eb126906c
+BuildDepends: ocaml (>= 3.11.0-1), camlp5 (>= 5.11-1), libncurses5, hevea
+Depends: libncurses5-shlibs, ocaml (>= 3.11), camlp5 (>= 5.11)
+NoSetCPPFLAGS: true
+NoSetLDFLAGS: true
+SetLIBRARY_PATH: %p/lib
+CompileScript: <<
+  #!/bin/sh -ev
+  export CPATH=%p/include
+  ./configure -prefix %p -mandir %p/share/man -coqdocdir %p/etc/texmf.local/tex/latex/misc -emacslib %p/share/emacs/site-lisp -opt -reals all -browser open
+  make world
+  make coq
+  make coqide
+<<
+InfoTest: <<
+  TestScript: make -ik check || :
+<<
+InstallScript: <<
+  make install COQINSTALLPREFIX=%d
+<<
+DocFiles: CHANGES COPYRIGHT CREDITS INSTALL LICENSE README
+License: LGPL
+Description: Calc. of Ind. Constructions: proof assistant
+DescDetail: <<
+Developed in the LogiCal project, the Coq tool is a formal proof
+management system: a proof done with Coq is mechanically checked by
+the machine.
+
+In particular, Coq allows:
+
+* the definition of functions or predicates,
+* to state mathematical theorems and software specifications,
+* to develop interactively formal proofs of these theorems,
+* to check these proofs by a small certification "kernel".
+
+Coq is based on a logical framework called "Calculus of Inductive
+Constructions" extended by a modular development system for theories.
+
+Coq also includes
+* a mechanism for automatic generation of certified programs from
+  proofs of their specifications
+* a graphical user interface based on gtk (CoqIde)
+* a documentation tool (coqdoc)
+* dependency and makefile generation tools for Coq (coq_makefile and coqdep)
+* a preprocessor for TeX files that include Coq commands (coq-tex)
+<<
+HomePage: http://www.lix.polytechnique.fr/coq/
+Maintainer: Jesse Alama <alama@stanford.edu>
+# Maintainer: Elie Soubiran <soubiran@lix.polytechnique.fr>

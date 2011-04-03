@@ -1,0 +1,22 @@
+Package: openproofpower
+Description: Specification and proof in HOL and Z
+Homepage: http://www.lemma-one.com/ProofPower/index/index.html
+Version: 2.7.8
+Revision: 1
+License: GPL
+Maintainer: Jesse Alama <alama@stanford.edu>
+Depends:
+Source: http://www.lemma-one.com/ProofPower/getting/versions/OpenProofPower-%v.tgz
+Source-MD5: 686dba5be4f9865e653d8a470442c4be
+CompileScript: <<
+<<
+InstallScript: <<
+
+<<
+DescDetail: <<
+ProofPower is a specification and proof tool based on an
+implementation of Higher Order Logic (HOL), following the LCF
+paradigm, in Standard ML. ProofPower provides support for
+specification and proof in Z using a semantic embedding of Z into
+HOL.
+<<

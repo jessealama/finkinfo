@@ -1,0 +1,34 @@
+Package: mmlquery-data
+Description: Data for the MML Query engine
+Version: 4.95.999
+Revision: 1
+License: Commercial
+Source: http://mmlquery.mizar.org/mmlquery/downloads/%v.tgz
+Source-MD5: 527f38d05069ff38ddf606e718ad3cca
+Maintainer: Jesse Alama <alama@stanford.edu>
+CompileScript: <<
+<<
+InstallScript: <<
+  mkdir -p %i/share/mizar/mmlquery/query
+  mkdir -p %i/share/mizar/mmlquery/query/%v
+  cp -R * %i/share/mizar/mmlquery/query/%v
+  (cd %i/share/mizar/mmlquery/query; ln -s %v current;)
+<<
+DescDetail: <<
+MMLQuery is a database-like program for performing semantic queries on
+the Mizar Mathematical Library (MML).  For more information, see its
+homepage
+
+  http://mmlquery.mizar.org
+
+and check out the paper
+
+  "Information retrieval in MML", by Grzegorz Bancerek and Piotr
+  Rudnicki.  In A. Asperti, B. Buchberger, and J. H. Davenport (eds):
+  Mathematical Knowledge Management 2003, Lecture Notes in Computer
+  Science 2594, pp. 119-132, 2003.
+
+This package contains only the data needed for the MMLQuery programs;
+the programs themselves can be found in the `mmlquery' package.
+<<
+

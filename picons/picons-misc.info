@@ -1,0 +1,24 @@
+Package: picons-misc
+Description: Picture icons for common internet accounts
+Version: 2007.01.03
+Revision: 1
+Maintainer: Jesse Alama <alama@stanford.edu>
+Source: ftp://ftp.cs.indiana.edu/pub/faces/picons/db/misc.tar.Z
+Source-MD5: f8ebd5b9c2873dc24db905d95437af58
+DocFiles: README FAQ
+CompileScript: <<
+<<
+InstallScript: <<
+  mkdir -p %i/share/picons/misc/MISC
+  cp -R * %i/share/picons/misc/MISC
+  <<  
+DescDetail: <<
+A picon is a picture icon, a little picture associated with an internet
+domain (such as ".org" or ".com"), particular people, organizations, and
+so forth.
+
+This package contains the picons associated that don't fit into the
+other pigeon holes by which the picon database is divded.
+<<
+Homepage: http://www.cs.indiana.edu/pub/faces/picons/
+License: Restrictive/Distributable

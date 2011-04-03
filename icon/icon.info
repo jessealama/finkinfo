@@ -1,0 +1,44 @@
+Package: icon
+Description: Imperative C-like language with high-level semantics
+Version: 9.4.3
+Revision: 1
+License: 
+Maintainer: Jesse Alama <alama@stanford.edu>
+Source: http://www.cs.arizona.edu/icon/ftp/packages/unix/icon.v943src.tgz
+Source-MD5: 4740b1fc5caf2fe7409367923dffe607
+CompileScript: <<
+
+<<
+InstallScript: <<
+
+<<
+DescDetail: <<
+
+Icon is a very high level general-purpose programming language with
+extensive features for processing strings (text) and data
+structures. Icon is an imperative, procedural language with a syntax
+that is reminiscent of C and Pascal, but with semantics at a much
+higher level.
+
+Icon has a novel expression-evaluation mechanism that integrates
+goal-directed evaluation and backtracking with conventional control
+structures. It has a string scanning facility for pattern matching
+that avoids the tedious details usually associated with analyzing
+strings. Icon's built-in data structures include sets and tables with
+associative lookup, lists that can be used as vectors or stacks and
+queues, and records.
+
+Icon is a strongly, though not statically, typed language. It provides
+transparent automatic type conversion: For example, if an integer is
+used in an operation that requires a string, the integer is
+automatically converted to a string.
+
+Several implementations of Icon have high-level graphics facilities
+with an easily programmed window interface.
+
+Icon manages storage automatically. Objects are created as needed
+during program execution and space is reclaimed by garbage collection
+as needed. The sizes of strings and data structures are limited only
+by the amount of available memory.
+
+<<

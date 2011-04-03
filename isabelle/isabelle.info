@@ -1,0 +1,89 @@
+# Initial Data
+Package: isabelle
+Version: 2009-1
+Revision: 1
+Description: Popular generic theorem proving environment
+License: BSD
+Maintainer: John Ridgway <ridgway@sourceforge.net>
+
+# Dependencies
+Depends: polyml (>= 5.3)
+Recommends: proof-general, latex, pdflatex, bibtex, makeindex, dvips, epstopdf, xdvi
+Suggests: thumbpdf
+
+# Unpack
+CustomMirror: <<
+  eur-DE: http://isabelle.in.tum.de/dist
+  eur-UK: http://www.cl.cam.ac.uk/research/hvg/Isabelle/dist
+  aus-AU: http://mirror.cse.unsw.edu.au/pub/isabelle/dist
+<<
+Source: mirror:custom:Isabelle2009-1.tar.gz
+# Source2: mirror:custom:Isabelle2009_pdf.tar.gz
+Source3: mirror:custom:Isabelle2009-1_library.tar.gz
+Source-MD5: d6c4b6f26b6ceba21a1950470436a450
+# Source2-MD5: b7b0f6965dc3e9f2a88c35d2f3c0cad7
+Source3-MD5: 1a07decfeb0289ca04cdf234425fec9d
+
+# Patch Phase
+# PatchScript: sed 's|@PREFIX@|%p|g' <%a/%n.patch | patch -p1
+
+# Compile Phase
+CompileScript: <<
+  ./build -b -a
+<<
+
+# Install Phase
+InstallScript: <<
+  install -m 755 -d %i/lib/%n/bin
+  install -m 755 -d %i/lib/%n/lib
+  install -m 755 -d %i/share/doc/%n
+  install -m 755 bin/* %i/lib/%n/bin/
+  cp -pr browser_info %i/share/doc/%n/
+  cp -pr contrib %i/lib/%n/
+  cp -pr doc %i/share/doc/%n/
+  cp -pr etc %i/lib/%n/
+  cp -pr heaps %i/lib/%n/
+  cp -pr lib/* %i/lib/%n/lib/
+  cp -pr src %i/share/%n/
+<<
+DocFiles: NEWS README COPYRIGHT 
+
+# Build Phase
+PostInstScript: <<
+  ln -s %p/lib/%n/bin/isabelle %p/bin/isabelle
+  ln -s %p/lib/%n/bin/isabelle-interface %p/bin/isabelle-interface
+  ln -s %p/lib/%n/bin/isabelle-process %p/bin/isabelle-process
+  ln -s %p/lib/%n/bin/isatool %p/bin/isatool
+<<
+PreRmScript: <<
+  rm -f %p/bin/isabelle %p/bin/isabelle-interface %p/bin/isabelle-process %p/bin/isatool
+<<
+
+# Additional Data
+Homepage: http://www.cl.cam.ac.uk/research/hvg/Isabelle/index.html
+DescDetail: <<  
+ 
+  Isabelle is a generic proof assistant. It allows mathematical
+  formulas to be expressed in a formal language and provides tools for
+  proving those formulas in a logical calculus. The main application
+  is the formalization of mathematical proofs and in particular formal
+  verification, which includes proving the correctness of computer
+  hardware or software and proving properties of computer languages
+  and protocols.
+
+  Compared with similar tools, Isabelle's distinguishing feature is
+  its flexibility. Most proof assistants are built around a single
+  formal calculus, typically higher-order logic. Isabelle has the
+  capacity to accept a variety of formal calculi. The distributed
+  version supports higher-order logic but also axiomatic set theory
+  and several other formalisms. See logics for more details.
+
+  Isabelle is a joint project between Lawrence C. Paulson (University
+  of Cambridge, UK) and Tobias Nipkow (Technical University of Munich,
+  Germany).
+<<
+DescUsage: <<
+  Once installed Isabelle can just be used.  There should be no need to adjust
+  any settings (except, perhaps, the default logic), nor to add anything to 
+  your paths.
+<<

@@ -1,0 +1,38 @@
+Package: system-tetex
+Version: 20080830
+Revision: 1
+Depends: base-files (>= 1.8.0-1)
+Provides: tetex-texmf, tetex-base, pdftex, hyperref, tetex-macosx, oberdiek, context, jadetex
+Conflicts: tetex-texmf, tetex-base, pdftex, hyperref, tetex-macosx, oberdiek, context, dvipdfm (<= 0.13.2c-3)
+Type: nosource
+Maintainer:  Jesse Alama <alama@stanford.edu>
+Description: Placeholder package for TeX Live
+DescDetail: <<
+Install this package if you have installed TeX Live separately from
+Fink, for example, by using Gerben Wierda's distribution (see
+http://www.rna.nl/tex.html) or the MacTeX install package, which is
+based on it (see http://www.tug.org/~koch/).
+<<
+DescPackaging: <<
+We put /usr/texbin at the end of the user's path to
+ensure that fink's install-info is used rather than the install-info
+found in teTeX.
+<<
+CompileScript: <<
+ echo "This public domain package creates links from a teTeX installation in" > README
+ echo "/usr/local/texlive/2007 to appropriate locations in the fink tree."  >> README
+<<
+InstallScript: <<
+ # Set up link to texmf
+ mkdir -p %i/share
+ ln -s /usr/local/texlive/2007/texmf %i/share/texmf
+ 
+ # Set up paths
+ mkdir -p %i/etc/profile.d
+ echo "append_path PATH /usr/local/texlive/2008/bin/universal-darwin/" > %i/etc/profile.d/%n.csh
+ echo "append_path PATH /usr/local/texlive/2008/bin/universal-darwin/" > %i/etc/profile.d/%n.sh
+ echo "export PATH" >> %i/etc/profile.d/%n.sh
+ chmod 755 %i/etc/profile.d/%n.*
+<<
+DocFiles: README
+License: Public Domain

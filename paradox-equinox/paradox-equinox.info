@@ -1,0 +1,8 @@
+Package: paradox-equinox
+Version: 
+SplitOff: <<
+  Package: paradox
+<<
+SplitOff2: <<
+  Package: equinox
+<<

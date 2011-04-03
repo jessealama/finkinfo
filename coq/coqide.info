@@ -1,0 +1,48 @@
+Package: coqide
+Version: 8.2
+Revision: 1
+Source: http://coq.inria.fr/V%v/files/coq-%v-1.tar.gz
+Source-MD5: 6907d97342e7b547e2e6d905a474235d
+Maintainer: Elie Soubiran <soubiran@lix.polytechnique.fr>
+Homepage: http://coq.inria.fr/
+License: LGPL
+Description: The Coq proof assistant IDE
+BuildDepends: ocaml (>=3.09), lablgtk2 (>=2.4.0)
+Depends: coq (>=8.1), gtk+2-shlibs (>=1.2.10), pango1-xft2
+CompileScript: <<
+./configure -prefix %p -mandir %p/share/man -libdir %p/lib -emacslib %p/share/emacs/site-lisp -opt -reals all -browser open -with-doc
+make coqide
+<<
+InstallScript: make install-coqide COQINSTALLPREFIX=%d
+DescDetail: <<
+Developed in the LogiCal project, the Coq tool is a formal proof
+management system: a proof done with Coq is mechanically checked by
+the machine.
+
+In particular, Coq allows:
+
+* the definition of functions or predicates,
+
+* to state mathematical theorems and software specifications,
+
+* to develop interactively formal proofs of these theorems,
+
+* to check these proofs by a small certification "kernel".
+
+Coq is based on a logical framework called "Calculus of Inductive
+Constructions" extended by a modular development system for theories.
+    
+Coq also includes
+
+* a mecanism for automatic generation of certified programs from
+  proofs of their specifications
+
+* a graphical user interface based on gtk (CoqIde) see screenshots)
+
+* a documentation tool (coqdoc)
+
+* dependecy and makefile generation tools for Coq *coq_makefile and
+  coqdep)
+
+* a preprocessor for TeX files that include Coq commands (coq-tex)
+<<

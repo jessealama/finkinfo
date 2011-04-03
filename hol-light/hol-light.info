@@ -1,0 +1,18 @@
+Package: hol-light
+Description: Prove mathematical theorems in higher order logic
+Version: 2.20
+Revision: 1
+License: OSI-Approved
+Depends: ocaml (>= 3.10)
+Source: http://www.cl.cam.ac.uk/~jrh13/hol-light/hol_light_220.tar.gz
+Source-MD5: c2f81125e94e77baa44eb228f74a3292
+DocFiles: LICENSE QUICK_REFERENCE.txt README VERYQUICK_REFERENCE.txt
+CompileScript: <<
+
+<<
+InstallScript: <<
+
+<<
+
+Homepage: http://www.cl.cam.ac.uk/~jrh13/hol-light/
+Maintainer: Jesse Alama <alama@stanford.edu>

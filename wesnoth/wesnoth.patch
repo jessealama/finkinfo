@@ -1,0 +1,24 @@
+diff -Naur --exclude='*~' wesnoth-1.6.5/src/tools/cutter.cpp wesnoth-1.6.5.fink/src/tools/cutter.cpp
+--- wesnoth-1.6.5/src/tools/cutter.cpp	2009-01-01 10:27:41.000000000 +0000
++++ wesnoth-1.6.5.fink/src/tools/cutter.cpp	2009-11-15 23:20:37.000000000 +0000
+@@ -95,6 +95,8 @@
+ 	} catch(exploder_failure err) {
+ 		std::cerr << "Failed: " << err.message << "\n";
+ 	}
++
++	return 0;
+ }
+ 
+ 
+diff -Naur --exclude='*~' wesnoth-1.6.5/src/tools/exploder.cpp wesnoth-1.6.5.fink/src/tools/exploder.cpp
+--- wesnoth-1.6.5/src/tools/exploder.cpp	2009-01-01 10:27:41.000000000 +0000
++++ wesnoth-1.6.5.fink/src/tools/exploder.cpp	2009-11-15 23:20:31.000000000 +0000
+@@ -69,6 +69,8 @@
+ 	} catch(exploder_failure err) {
+ 		std::cerr << "Failed: " << err.message << "\n";
+ 	}
++
++	return 0;
+ }
+ 
+ 

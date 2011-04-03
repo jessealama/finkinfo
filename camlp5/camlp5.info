@@ -1,0 +1,28 @@
+Package: camlp5
+Description: Preprocessor-pretty-printer of ocaml
+DescDetail: <<
+Camlp5 is a preprocessor-pretty-printer of ocaml.
+It is the continuation of the classical camlp4 with new features.
+It is compatible with OCaml versions from 3.08.1 to 3.11 included.
+<<
+Version: 5.12
+Revision: 1
+Homepage: http://pauillac.inria.fr/~ddr/camlp5/
+Maintainer: Jesse Alama <alama@stanford.edu>
+Source: http://pauillac.inria.fr/~ddr/camlp5/distrib/src/%n-%v.tgz
+Source-MD5: 26d69abd669c5fda43dbf35074debc81
+BuildDepends: fink (>= 0.24.12)
+Depends: ocaml (>= 3.11)
+PatchFile: camlp5.patch
+PatchFile-MD5: 08df4d0b2ab7d81c83810b78d9881ecf
+PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile}/%n.patch | patch -p1
+CompileScript: <<
+  ./configure -prefix %p -mandir %p/share/man
+  make world.opt
+<<
+InstallScript: <<
+  make install DESTDIR=%d
+<<
+DocFiles: CHANGES DEVEL ICHANGES LICENSE README UPGRADING
+License: OSI-Approved
+

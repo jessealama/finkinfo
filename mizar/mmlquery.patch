@@ -1,0 +1,21 @@
+diff -Naur --exclude='*~' kernel/directories.pl kernel.fink/directories.pl
+--- kernel/directories.pl	2004-05-25 05:16:03.000000000 -0500
++++ kernel.fink/directories.pl	2007-12-15 21:39:48.000000000 -0600
+@@ -1,4 +1,4 @@
+ # Change directories if necessary
+-$megrez_cvsroot = '/var/megrez';
++$megrez_cvsroot = '@PREFIX@/share/mizar/mmlquery';
+ $program_path = $megrez_cvsroot.'/kernel';
+ $QUERYmain = $megrez_cvsroot.'/query';
+diff -Naur --exclude='*~' kernel/mmlquery kernel.fink/mmlquery
+--- kernel/mmlquery	2007-02-21 03:33:25.000000000 -0600
++++ kernel.fink/mmlquery	2007-12-15 21:39:39.000000000 -0600
+@@ -8,7 +8,7 @@
+ $mmlquery_prompt = 'mmlquery> ';
+ 
+ ####### Change directory below if necessary
+-require '/var/megrez/kernel/directories.pl';
++require '@PREFIX@/share/mizar/mmlquery/kernel/directories.pl';
+ #######
+ require $program_path.'/version.pl';
+ require $program_path.'/query_iodata.pl';

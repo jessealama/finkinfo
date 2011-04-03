@@ -1,0 +1,124 @@
+diff -Naur --exclude='*~' carbon-emacs-el-2007.02.23/fink/LICENSE carbon-emacs-el-2007.02.23.fink/fink/LICENSE
+--- carbon-emacs-el-2007.02.23/fink/LICENSE	1969-12-31 16:00:00.000000000 -0800
++++ carbon-emacs-el-2007.02.23.fink/fink/LICENSE	2007-02-23 18:52:12.000000000 -0800
+@@ -0,0 +1,17 @@
++Every emacs lisp file in this package is released under the terms of
++the GNU GPL:
++
++;; This file is free software; you can redistribute it and/or modify
++;; it under the terms of the GNU General Public License as published by
++;; the Free Software Foundation; either version 2, or (at your option)
++;; any later version.
++
++;; This file is distributed in the hope that it will be useful,
++;; but WITHOUT ANY WARRANTY; without even the implied warranty of
++;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++;; GNU General Public License for more details.
++
++;; You should have received a copy of the GNU General Public License
++;; along with GNU Emacs; see the file COPYING.  If not, write to
++;; the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++;; Boston, MA 02111-1307, USA.
+diff -Naur --exclude='*~' carbon-emacs-el-2007.02.23/fink/README.fink carbon-emacs-el-2007.02.23.fink/fink/README.fink
+--- carbon-emacs-el-2007.02.23/fink/README.fink	1969-12-31 16:00:00.000000000 -0800
++++ carbon-emacs-el-2007.02.23.fink/fink/README.fink	2007-02-23 18:51:41.000000000 -0800
+@@ -0,0 +1,17 @@
++This package was finkified by Jesse Alama (alama@stanford.edu) on
++February 23, 2007.  The source mac-key-mode.el was downloaded from 
++
++http://emacs-mac.svn.sourceforge.net/viewvc/emacs-mac/CarbonEmacs/trunk/GPL/mac .
++
++Here are the revision numbers for each of the files included in this
++package, which come from the emacs-mac SVN repository:
++
++File                   Revision
++carbon-font-lite.el    110
++carbon-font.el         110
++fixed-width-fontset.el 114
++mac-key-mode.el        67
++mac-print-mode.el      126
++
++
++
+diff -Naur --exclude='*~' carbon-emacs-el-2007.02.23/fink/emacsen-install carbon-emacs-el-2007.02.23.fink/fink/emacsen-install
+--- carbon-emacs-el-2007.02.23/fink/emacsen-install	1969-12-31 16:00:00.000000000 -0800
++++ carbon-emacs-el-2007.02.23.fink/fink/emacsen-install	2007-02-24 13:17:32.000000000 -0800
+@@ -0,0 +1,41 @@
++#!/bin/bash -e
++#
++# install file for the fink carbon-emacs-el emacs package.
++
++set -o posix
++
++FLAVOR=${1}
++
++echo >&2 "install/carbon-emacs-el: Handling install of emacsen flavor ${FLAVOR}"
++
++if [ ${FLAVOR} == emacs20 ]
++then
++    echo "install/carbon-emacs-el: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++if [ ${FLAVOR} == emacs ]
++then
++    exit 0
++fi
++
++if [ ${FLAVOR} == xemacs ]
++then
++    echo "install/carbon-emacs-el: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++echo >&2 -n "install/carbon-emacs-el: Byte-compiling for ${FLAVOR}..."
++mkdir -p @PREFIX@/share/${FLAVOR}/site-lisp/carbon-emacs-el;
++for i in carbon-font-lite.el carbon-font.el fixed-width-fontset.el mac-key-mode.el mac-print-mode.el ; do
++ln -s -f @PREFIX@/share/emacs/site-lisp/carbon-emacs-el/${i} @PREFIX@/share/${FLAVOR}/site-lisp/carbon-emacs-el/;
++done
++
++cd @PREFIX@/share/${FLAVOR}/site-lisp/carbon-emacs-el;
++
++(${FLAVOR} -batch -f batch-byte-compile --no-site-file --no-init-file carbon-font-lite.el carbon-font.el fixed-width-fontset.el mac-key-mode.el mac-print-mode.el 2>&1) | gzip -9qf > @PREFIX@/share/doc/carbon-emacs-el/CompilationLog-${FLAVOR}.gz
++
++echo >&2 "done."
++echo >&2 "install/carbon-emacs-el: Compilation log saved in @PREFIX@/share/doc/erc/CompilationLog-${FLAVOR}.gz."
++
++exit 0
+diff -Naur --exclude='*~' carbon-emacs-el-2007.02.23/fink/emacsen-remove carbon-emacs-el-2007.02.23.fink/fink/emacsen-remove
+--- carbon-emacs-el-2007.02.23/fink/emacsen-remove	1969-12-31 16:00:00.000000000 -0800
++++ carbon-emacs-el-2007.02.23.fink/fink/emacsen-remove	2007-02-24 12:16:16.000000000 -0800
+@@ -0,0 +1,33 @@
++#!/bin/bash -e
++#
++# This is the Fink version of the carbon-emacs-el emacs package.
++set -o posix
++
++FLAVOR=${1}
++
++echo "remove/carbon-emacs-el: Handling removal for emacsen flavor ${FLAVOR}"
++
++if [ ${FLAVOR} == emacs20 ]
++then
++    echo "remove/carbon-emacs-el: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++if [ $FLAVOR} == xemacs ]
++then
++    echo "remove/carbon-emacs-el: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++if [ ${FLAVOR} == emacs ]
++then
++    exit 0
++fi
++
++echo >&2 -n "remove/carbon-emacs-el: Purging compilation log and byte-compiled files for ${FLAVOR}..."
++rm -f @PREFIX@/share/doc/carbon-emacs-el/CompilationLog-${FLAVOR}.gz
++
++rm -Rf @PREFIX@/share/${FLAVOR}/site-lisp/carbon-emacs-el
++echo >&2 "done."
++    
++exit 0

@@ -1,0 +1,123 @@
+diff -Naur --exclude='*~' TPTP-v3.3.0/TPTP2X/tptp2X TPTP-v3.3.0.fink/TPTP2X/tptp2X
+--- TPTP-v3.3.0/TPTP2X/tptp2X	2007-07-11 10:35:19.000000000 -0500
++++ TPTP-v3.3.0.fink/TPTP2X/tptp2X	2007-12-26 17:19:51.000000000 -0600
+@@ -1,10 +1,10 @@
+ #!/bin/tcsh
+ #--------------------------------------------------------------------------
+ #----These need to be installed
+-set TPTPDirectory=/home/graph/tptp/TPTP
+-set PrologInterpreter='/usr/local/bin/eclipse'
++set TPTPDirectory=@PREFIX@/share/tptp
++set PrologInterpreter='@PREFIX@/bin/swipl'
+ set PrologArguments='-l 1024000 -g 1024000'
+-set Gawk=/bin/awk
++set Gawk=@PREFIX@/bin/awk
+ #--------------------------------------------------------------------------
+ #----Set default values for tptp2X parameters
+ set FilesToConvert=""
+diff -Naur --exclude='*~' TPTP-v3.3.0/TPTP2X/tptp2X.config TPTP-v3.3.0.fink/TPTP2X/tptp2X.config
+--- TPTP-v3.3.0/TPTP2X/tptp2X.config	2006-11-21 11:00:59.000000000 -0600
++++ TPTP-v3.3.0.fink/TPTP2X/tptp2X.config	2007-12-26 17:21:28.000000000 -0600
+@@ -10,24 +10,24 @@
+ %----keep working (it looks for that). Do not delete them!
+ % prolog_dialect(generic).                %%generic
+ 
+-prolog_dialect(eclipse).                %%eclipse
++%prolog_dialect(eclipse).                %%eclipse
+ %----These lines were supplied by Max Moser from TUM, to get things working.
+-:-local(write/1).                       %%eclipse
+-write(X):-                              %%eclipse
+-    printf("%Dw",[X]).                  %%eclipse
+-:-op(0,fy,not).                         %%eclipse
+-:-op(0,fy,once).                        %%eclipse
+-:-use_module(library(iso)).             %%eclipse
+-:-use_module(library(numbervars)).      %%eclipse
+-:-dynamic(tptp2X_file_to_include/1).    %%eclipse
+-:-dynamic(tptp2X_unique_value/1).       %%eclipse
+-:-dynamic(tptp2X_cwd/1).                %%eclipse
++%:-local(write/1).                       %%eclipse
++%write(X):-                              %%eclipse
++%    printf("%Dw",[X]).                  %%eclipse
++% :-op(0,fy,not).                         %%eclipse
++% :-op(0,fy,once).                        %%eclipse
++% :-use_module(library(iso)).             %%eclipse
++% :-use_module(library(numbervars)).      %%eclipse
++% :-dynamic(tptp2X_file_to_include/1).    %%eclipse
++% :-dynamic(tptp2X_unique_value/1).       %%eclipse
++% :-dynamic(tptp2X_cwd/1).                %%eclipse
+ %----Optimise the compilation
+-:-nodbgcomp.                            %%eclipse
++%:-nodbgcomp.                            %%eclipse
+ %----Suppress informational output (needed for generators that do a consult
+ %----while things are running, so the messages are not filtered by the
+ %----tptp2X script).
+-:-set_stream(toplevel_output,null).     %%eclipse
++%:-set_stream(toplevel_output,null).     %%eclipse
+ %----These remove error messages and the prompt too, but that's already
+ %----taken care of by the tptp2X script. Hence they are not installed.
+ % :-set_error_handler(139,true/0).
+@@ -40,8 +40,8 @@
+ % prolog_dialect(gnu).                    %%gnu
+ 
+ %----SWI Version 5.3.12 has a bug that affects TPTP2X. Upgrade to 5.3.13
+-% prolog_dialect(swi).                    %%swi
+-% :-op(0,yfx,xor).                        %%swi
++prolog_dialect(swi).                    %%swi
++:-op(0,yfx,xor).                        %%swi
+ 
+ % prolog_dialect(sicstus).                %%sicstus
+ % :-use_module(library(system)).          %%sicstus
+@@ -68,5 +68,5 @@
+ %------------------------------------------------------------------------------
+ %----This specifies the parent directory of the TPTP Problems, Axioms and
+ %----TPTP2X directories. Do not use a ~ in this.
+-tptp_directory('/home/graph/tptp/TPTP').
++tptp_directory('@PREFIX@/share/tptp').
+ %------------------------------------------------------------------------------
+diff -Naur --exclude='*~' TPTP-v3.3.0/fink/README.fink TPTP-v3.3.0.fink/fink/README.fink
+--- TPTP-v3.3.0/fink/README.fink	1969-12-31 18:00:00.000000000 -0600
++++ TPTP-v3.3.0.fink/fink/README.fink	2007-12-26 17:29:41.000000000 -0600
+@@ -0,0 +1,43 @@
++Import information from the README:
++
++Conditions of use
++-----------------
++By providing  this library  of ATP problems,  and a specification  of how these
++problems should  be presented to ATP systems,  it is our intention to place the
++testing,  evaluation,  and comparison of  ATP systems onto a firm footing.  For
++this reason,  you should  abide  by the  following conditions  when using  TPTP
++problems and presenting your results.
++1. The TPTP release number must be stated.
++2. Each problem must be referenced by its unambiguous syntactic name.
++3. No formulae may be changed,  added, or removed without explicit notice (this
++   holds also for  removing equality axioms when built-in equality  is provided
++   by the prover).
++4. The formulae may not be reordered without explicit notice.  If reordering is
++   done using the tptp2X utility, the reordering must be explicitly noted.
++5. The header  information in  each problem  may not  be used by the ATP system
++   without explicit notice.  Any information  that is given  to the ATP system,
++   other  than that  in  the  "input_formula"s  and  "input_clause"s,  must  be
++   explicitly noted.
++6. All system switches and default settings must be recorded.
++
++Please email one of us if :
++---------------------------
++1. You find any mistakes in the TPTP.
++2. You are able to provide further information for a TPTP problem.
++3. You  want  to  contribute  a  problem  to  the TPTP.  Please use the problem
++   template that comes with the distribution, and fill in header information as
++   far as possible. Any unambiguous representation will do for the formulae.
++4. You have any suggestions for improving the TPTP library.
++
++General Disclaimer
++------------------
++Every effort has been made to ensure that the TPTP problems have been correctly
++presented, and that appropriate acknowledgments have been made.  However, we do
++not guarantee that we have succeeded,  and accept  no  responsibility  for  any
++errors or omissions.  We will gratefully receive comments and  corrections.
++
++Copyright
++---------
++The TPTP is copyrighted (c) 1993-2007,  by Geoff Sutcliffe & Christian Suttner.
++Use and verbatim redistribution of the TPTP are permitted.  Distribution of any
++modified version or modified part of the TPTP requires permission.

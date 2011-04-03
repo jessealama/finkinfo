@@ -1,0 +1,6 @@
+Package: dvc
+Description: Distributed Version Control for Emacsen
+Version: 
+Revision: 1
+License: 
+Maintainer: Jesse Alama <alama@stanford.edu>

@@ -1,0 +1,24 @@
+Package: picons-unknown
+Description: Picture icons for high-level domains
+Version: 2007.03.01
+Revision: 1
+Maintainer: Jesse Alama <alama@stanford.edu>
+Source: ftp://ftp.cs.indiana.edu/pub/faces/picons/db/unknown.tar.Z
+Source-MD5: 2a7b2531b4c8d643bb257939edbe8352
+DocFiles: README FAQ
+CompileScript: <<
+<<
+InstallScript: <<
+  mkdir -p %i/share/picons/unknown
+  cp -R unknown/* %i/share/picons/unknown
+  <<
+DescDetail: <<
+A picon is a picture icon, a little picture associated with an internet
+domain (such as ".org" or ".com"), particular people, organizations, and
+so forth.
+
+This package contains the picons associated high-level internet domains as
+a `smoking spy'.
+<<
+Homepage: http://www.cs.indiana.edu/pub/faces/picons/
+License: Restrictive/Distributable

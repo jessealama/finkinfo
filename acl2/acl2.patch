@@ -1,0 +1,105 @@
+diff -Naur --exclude='*~' acl2-sources/emacs/emacs-acl2.el acl2-sources.fink/emacs/emacs-acl2.el
+--- acl2-sources/emacs/emacs-acl2.el	2007-11-01 16:55:35.000000000 -0500
++++ acl2-sources.fink/emacs/emacs-acl2.el	2007-12-26 22:04:43.000000000 -0600
+@@ -138,7 +138,7 @@
+ ; ACL2 source directory (as is the case when it is distributed).
+ ; Example:
+ ; (defvar *acl2-sources-dir* "/u/acl2/v2-9/acl2-sources/")
+-(defvar *acl2-sources-dir*)
++(defvar *acl2-sources-dir* "@PREFIX@/share/acl2/src/")
+ 
+ ; Attempt to set *acl2-sources-dir*.
+ (if (and (not (boundp '*acl2-sources-dir*))
+diff -Naur --exclude='*~' acl2-sources/fink/50acl2.el acl2-sources.fink/fink/50acl2.el
+--- acl2-sources/fink/50acl2.el	1969-12-31 18:00:00.000000000 -0600
++++ acl2-sources.fink/fink/50acl2.el	2007-12-26 22:14:59.000000000 -0600
+@@ -0,0 +1,3 @@
++(defun acl2 ()
++  (interactive)
++  (load-file "emacs-acl2"))
+\ No newline at end of file
+diff -Naur --exclude='*~' acl2-sources/fink/emacsen-install acl2-sources.fink/fink/emacsen-install
+--- acl2-sources/fink/emacsen-install	1969-12-31 18:00:00.000000000 -0600
++++ acl2-sources.fink/fink/emacsen-install	2007-12-26 22:16:27.000000000 -0600
+@@ -0,0 +1,36 @@
++#!/bin/bash -e
++#
++# install file for the fink acl2-emacs emacs package.
++
++set -o posix
++
++FLAVOR=${1}
++
++echo >&2 "install/acl2-emacs: Handling install of emacsen flavor ${FLAVOR}"
++
++if [ ${FLAVOR} == emacs20 ]
++then
++    echo "install/acl2-emacs: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++if [ ${FLAVOR} == emacs ]
++then
++    # Nothing to do; nothing to print
++    exit 0
++fi
++
++echo >&2 -n "install/acl2-emacs: Byte-compiling for ${FLAVOR}..."
++mkdir -p @PREFIX@/share/${FLAVOR}/site-lisp/acl2;
++for i in emacs-acl2.el monitor.el acl2-interface-functions.el acl2-interface.el acl2-mode.el inf-acl2.el interface-macros.el key-interface.el load-inferior-acl2.el load-shell-acl2.el mfm-acl2.el mfm.el top-start-inferior-acl2.el top-start-shell-acl2.el ; do
++    ln -s @PREFIX@/share/emacs/site-lisp/acl2/${i} @PREFIX@/share/${FLAVOR}/site-lisp/acl2/${i};
++done
++
++cd @PREFIX@/share/${FLAVOR}/site-lisp/acl2;
++
++(EMACS=${FLAVOR} --no-site-file --no-init-file -batch -f batch-byte-compile *.el 2>&1) | gzip -9qf > @PREFIX@/share/doc/acl2/CompilationLog-${FLAVOR}.gz
++
++echo >&2 "done."
++echo >&2 "install/acl2-emacs: Compilation log saved in @PREFIX@/share/doc/acl2-emacs/CompilationLog-${FLAVOR}.gz."
++
++exit 0
+diff -Naur --exclude='*~' acl2-sources/fink/emacsen-remove acl2-sources.fink/fink/emacsen-remove
+--- acl2-sources/fink/emacsen-remove	1969-12-31 18:00:00.000000000 -0600
++++ acl2-sources.fink/fink/emacsen-remove	2007-11-12 11:51:06.000000000 -0600
+@@ -0,0 +1,21 @@
++#!/bin/bash -e
++#
++# This is the Fink version of the acl2-emacs emacs package.
++set -o posix
++
++FLAVOR=${1}
++
++echo "remove/acl2-emacs: Handling removal for emacsen flavor ${FLAVOR}"
++
++if [ ${FLAVOR} == emacs20 ]
++then
++    echo "remove/acl2-emacs: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++echo >&2 -n "remove/acl2-emacs: Purging compilation log and byte-compiled files for ${FLAVOR}..."
++rm -f @PREFIX@/share/doc/acl2/CompilationLog-${FLAVOR}.gz
++rm -Rf @PREFIX@/share/${FLAVOR}/site-lisp/acl2
++echo >&2 "done."
++    
++exit 0
+diff -Naur --exclude='*~' acl2-sources/interface/emacs/top-start-inferior-acl2.el acl2-sources.fink/interface/emacs/top-start-inferior-acl2.el
+--- acl2-sources/interface/emacs/top-start-inferior-acl2.el	1995-10-27 17:56:33.000000000 -0500
++++ acl2-sources.fink/interface/emacs/top-start-inferior-acl2.el	2007-12-26 22:17:37.000000000 -0600
+@@ -1,5 +1,5 @@
+ (defvar *acl2-interface-dir*
+-  "/slocal/src/acl2/v1-8/interface/emacs/")
++  "@PREFIX@/share/emacs/site-lisp/acl2")
+ 
+ (setq *acl2-user-map-interface*
+   '((inferior-acl2-mode-map menu-bar popup-menu keys)
+diff -Naur --exclude='*~' acl2-sources/interface/emacs/top-start-shell-acl2.el acl2-sources.fink/interface/emacs/top-start-shell-acl2.el
+--- acl2-sources/interface/emacs/top-start-shell-acl2.el	1998-07-24 18:18:30.000000000 -0500
++++ acl2-sources.fink/interface/emacs/top-start-shell-acl2.el	2007-12-26 22:09:27.000000000 -0600
+@@ -1,5 +1,5 @@
+ (defvar *acl2-interface-dir*
+-  "/projects/acl2/v2-x/interface/emacs/")
++  "@PREFIX@/emacs/site-lisp/acl2")
+ 
+ (setq *acl2-user-map-interface*
+   '((global keys)))

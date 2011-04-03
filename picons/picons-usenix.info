@@ -1,0 +1,23 @@
+Package: picons-usenix
+Description: Picture icons for Usenix accounts
+Version: 1995.05.17
+Revision: 1
+Maintainer: Jesse Alama <alama@stanford.edu>
+Source: ftp://ftp.cs.indiana.edu/pub/faces/picons/db/usenix.tar.Z
+Source-MD5: d41d8cd98f00b204e9800998ecf8427e
+DocFiles: README FAQ
+CompileScript: <<
+<<
+InstallScript: <<
+  mkdir -p %i/share/picons/usenix
+  cp -R * %i/share/picons/usenix
+  <<
+DescDetail: <<
+A picon is a picture icon, a little picture associated with an internet
+domain (such as ".org" or ".com"), particular people, organizations, and
+so forth.
+
+This package contains the picons associated with USENIX users.
+<<
+Homepage: http://www.cs.indiana.edu/pub/faces/picons/
+License: Restrictive/Distributable

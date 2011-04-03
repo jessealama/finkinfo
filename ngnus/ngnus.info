@@ -1,0 +1,34 @@
+Package: ngnus
+Version: 0.10
+Revision: 1
+Depends: emacsen
+Source: http://gnus.org/dist/%n-%v.tar.gz
+Source-MD5: fcfcdcb8c233ba71e5c82fa1711117de
+Maintainer: Jesse Alama <alama@stanford.edu>
+License: GPL
+CompileScript: <<
+<<
+InstallScript: <<
+
+  # lisp
+  mkdir -p %i/share/emacs/site-lisp/ngnus
+  cp -R lisp/*.el %i/share/emacs/site-lisp/ngnus
+
+  # install, remove
+  mkdir -p %i/lib/emacsen-common/packages/install
+  mkdir -p %i/lib/emacsen-common/packages/remove
+  install -m 755 fink/emacsen-install %i/lib/emacsen-common/packages/install/%n
+  install -m 755 fink/emacsen-remove %i/lib/emacsen-common/packages/remove/%n
+
+  # site-start
+  mkdir -p %i/etc/emacs/site-start.d
+  install -m 644 fink/50ngnus.el %i/etc/emacs/site-start.d
+
+<<
+PostInstScript: %p/lib/emacsen-common/emacs-package-install %n
+PreRmScript: %p/lib/emacsen-common/emacs-package-remove %n
+DocFiles: COPYING GNUS-NEWS README todo
+SplitOff: <<
+  Package: ngnus-contrib
+  Files: share/emacs/site-lisp/ngnus/contrib
+<<

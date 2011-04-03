@@ -1,0 +1,24 @@
+Package: picons-news
+Description: Picture icons for newsgroups and hierarchies
+Version: 2007.03.01
+Revision: 1
+Maintainer: Jesse Alama <alama@stanford.edu>
+Source: ftp://ftp.cs.indiana.edu/pub/faces/picons/db/news.tar.Z
+Source-MD5: b679ebe4e2ac31b6ff8b1347c6216711
+DocFiles: README FAQ
+CompileScript: <<
+<<
+InstallScript: <<
+  mkdir -p %i/share/picons/news
+  cp -R * %i/share/picons/news
+  <<
+DescDetail: <<
+A picon is a picture icon, a little picture associated with an internet
+domain (such as ".org" or ".com"), particular people, organizations, and
+so forth.
+
+This package contains the picons associated with Usenet newsgroups
+and hierarchies.
+<<
+Homepage: http://www.cs.indiana.edu/pub/faces/picons/
+License: Restrictive/Distributable

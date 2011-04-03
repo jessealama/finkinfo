@@ -1,0 +1,55 @@
+Package: hol
+Description: Autoamted proof system for higher-order logic
+Version: kananaskis-4
+Revision: 1
+License: BSD
+Depends: moscow-ml (>= 2.0.1)
+DescDetail: <<
+HOL 4 ("Kananaskis") is the latest version of the HOL automated proof
+system for higher order logic: a programming environment in which
+theorems can be proved and proof tools implemented. Built-in decision
+procedures and theorem provers can automatically establish many simple
+theorems. An oracle mechanism gives access to external programs such
+as SAT and BDD engines. HOL 4 is particularly suitable as a platform
+for implementing combinations of deduction, execution and property
+checking.
+<<
+Maintainer: Jesse Alama <alama@stanford.edu>
+Homepage: http://hol.sourceforge.net/
+Source: mirror:sourceforge:hol/%v.tar.gz
+Source-MD5: 75b3b30e83fa2cbba3a6970dfb18a370
+PatchScript: sed 's|@PREFIX@|%p|g' < %a/%n.patch | patch -p1
+SourceDirectory: hol
+CompileScript: <<
+  (cd tools; mosml < smart-configure.sml;)
+  bin/build
+<<
+InstallScript: <<
+  mkdir -p %p/bin
+  install -m 755 bin/hol %p/bin
+  install -m 755 bin/hol.noquote %p/bin
+  install -m 755 bin/hol.bare %p/bin
+  install -m 755 bin/hol.bare.noquote %p/bin
+  install -m 755 bin/Holmake %p/bin
+  
+  mkdir -p %p/share/hol/examples
+  cp -R examples/* %p/share/hol/examples
+
+  mkdir -p %p/share/hol/src
+  cp -R src/* %p/share/hol/src
+
+  mkdir -p %p/share/hol/help
+  cp -R help/* %p/share/hol/help
+<<
+SplitOff: <<
+  Package: hol-source
+  Files: share/hol/src
+<<
+SplitOff2: <<
+  Package: hol-examples
+  Files: share/hol/examples
+<<
+SplitOff3: <<
+  Package: hol-help
+  Files: share/hol/help
+<<

@@ -1,0 +1,23 @@
+Package: picons-domains
+Description: Picture icons for internet domains
+Version: 2007.03.16
+Revision: 1
+Maintainer: Jesse Alama <alama@stanford.edu>
+DocFiles: FAQ
+Source: ftp://ftp.cs.indiana.edu/pub/faces/picons/db/domains.tar.Z
+Source-MD5: f045c0fd878f04a8244fcc163f9db305
+CompileScript: <<
+<<
+InstallScript: <<
+  mkdir -p %i/share/picons/domains
+  cp -R * %i/share/picons/domains
+<<
+DescDetail: <<
+A picon is a picture icon, a little picture associated with an internet
+domain (such as ".org" or ".com"), particular people, organizations, and
+so forth.
+
+This package contains the picons associated with domains.
+<<
+Homepage: http://www.cs.indiana.edu/pub/faces/picons/
+License: Restrictive/Distributable

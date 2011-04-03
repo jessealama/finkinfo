@@ -1,0 +1,42 @@
+Package: bst-mode
+Description: Work with BibTeX STyle files in emacs
+Version: 0.3
+Homepage: http://www.emacswiki.org/cgi-bin/wiki/BstMode
+Revision: 1
+Maintainer: Jesse Alama <alama@stanford.edu>
+Depends: emacsen
+Recommends: tetex | system-tetex | ptex
+License: GPL
+Source: http://www.emacswiki.org/%n.el
+NoSourceDirectory: true
+Source-MD5: 8011e517eddf612888a944e7ca54da0a
+PatchScript: sed 's|@PREFIX@|%p|g' < %a/%n.patch | patch -p1
+CompileScript: <<
+<<
+InstallScript: <<
+mkdir -p %i/share/emacs/site-lisp/bst-mode
+install -m 644 bst-mode.el %i/share/emacs/site-lisp/bst-mode
+
+# Nothing to put here now, but the compilation logs will be put here later
+mkdir -p %i/share/doc/bst-mode
+
+mkdir -p %i/lib/emacsen-common/packages/install
+mkdir -p %i/lib/emacsen-common/packages/remove
+install -m 755 fink/emacsen-install %i/lib/emacsen-common/packages/install/%n
+install -m 755 fink/emacsen-remove %i/lib/emacsen-common/packages/remove/%n
+
+mkdir -p %i/etc/emacs/site-start.d
+install -m 644 fink/50bst-mode.el %i/etc/emacs/site-start.d
+<<
+PostInstScript: %p/lib/emacsen-common/emacs-package-install %n
+PreRmScript: %p/lib/emacsen-common/emacs-package-remove %n
+DescDetail: <<
+bst-mode is an emacs major mode for working with BibTeX STyle (BST)
+files, which are used to specify the style of a BibTeX bibliography.
+<<
+DescUsage: <<
+By default, the bst-mode fink package is configured to load bst-mode
+whenever a BibTeX style file, defined as any file whose extension is
+".bst", is visited by emacs.  To manually turn on bst-mode in an emacs
+buffer, issue the command `bst-mode'.
+<<

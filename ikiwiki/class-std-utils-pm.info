@@ -1,0 +1,32 @@
+Info2: <<
+Package: class-std-utils-pm%type_pkg[perl]
+Version: 0.0.3
+Revision: 1
+Distribution: (%type_pkg[perl] = 586) 10.4, (%type_pkg[perl] = 586) 10.5, (%type_pkg[perl] = 5100) 10.5, (%type_pkg[perl] = 5100) 10.6
+License: Artistic
+Description: Utilities for building "inside-out" objects
+DescDetail: <<
+This module provides three utility subroutines that simplify the
+creation of "inside-out" classes. See Chapters 15 and 16 of "Perl Best
+Practices" (O'Reilly, 2005) for details.
+<<
+Replaces: net-amazon-s3%type_pkg[perl]
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
+Homepage: http://search.cpan.org/dist/Amazon-S3
+Source: mirror:cpan:authors/id/D/DM/DMUEY/Class-Std-Utils-v%v.tar.gz
+Source-MD5: a919348d36b254aacbabe01d82e831b6
+
+Type: perl (5.8.6 5.8.8 5.10.0)
+UpdatePOD: true
+
+DocFiles: Changes README
+
+Depends: <<
+  perl%type_pkg[perl]-core
+<<
+
+InstallScript: <<
+  %{default_script}
+  mv %i/share/man %i/lib/perl5/%type_raw[perl]
+<<
+<<

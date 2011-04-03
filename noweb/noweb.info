@@ -1,0 +1,28 @@
+Package: noweb
+Version: 2.11b
+Revision: 1
+License: OSI-Approved
+Description: 
+DescDetail: <<
+noweb is designed to meet the needs of literate programmers while
+remaining as simple as possible.  Its primary advantages are
+simplicity, extensibility, and language-independence.  noweb uses 5
+control sequences to WEB's 27.  The noweb manual is only 3 pages; an
+additional page explains how to customize its LaTeX output.  noweb
+works ``out of the box'' with any programming language, and supports
+TeX, latex, and HTML back ends.  A back end to support full hypertext
+or indexing takes about 250 lines; a simpler one can be written in 40
+lines of awk.  Noweb does not prettyprint natively, but supports
+prettyprinting through such third-party filters as pretzel and dpp.
+<<
+Maintainer: Jesse Alama <alama@stanford.edu>
+Source: http://www.eecs.harvard.edu/~nr/noweb/dist/noweb-2.11b.tgz
+Source-MD5: 1df580723497b2f2efde07646abf764c
+DocFiles: CHANGES COPYRIGHT DATE README
+CompileScript: <<
+<<
+InstallScript: <<
+<<
+DescDetail: <<
+
+<<

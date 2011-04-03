@@ -1,0 +1,12 @@
+diff -Naur --exclude='*~' coreutils-8.9/tests/Makefile.in coreutils-8.9.fink/tests/Makefile.in
+--- coreutils-8.9/tests/Makefile.in	2011-01-04 11:23:07.000000000 +0000
++++ coreutils-8.9.fink/tests/Makefile.in	2011-02-09 21:36:27.000000000 +0000
+@@ -1648,7 +1648,7 @@
+   du/hard-link					\
+   du/inacc-dest					\
+   du/inacc-dir					\
+-  du/inaccessible-cwd				\
++#  du/inaccessible-cwd				\
+   du/long-from-unreadable			\
+   du/long-sloop					\
+   du/max-depth					\

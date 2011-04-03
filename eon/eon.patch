@@ -1,0 +1,108 @@
+diff -Naur --exclude='*~' eon-1.1/fink/50eon.el eon-1.1.fink/fink/50eon.el
+--- eon-1.1/fink/50eon.el	1969-12-31 16:00:00.000000000 -0800
++++ eon-1.1.fink/fink/50eon.el	2008-09-16 10:40:00.000000000 -0700
+@@ -0,0 +1 @@
++(require 'eon)
+diff -Naur --exclude='*~' eon-1.1/fink/README.fink eon-1.1.fink/fink/README.fink
+--- eon-1.1/fink/README.fink	1969-12-31 16:00:00.000000000 -0800
++++ eon-1.1.fink/fink/README.fink	2008-09-16 10:42:52.000000000 -0700
+@@ -0,0 +1,5 @@
++This package was finkified on September 16, 2008 by Jesse Alama
++(alama@stanford.edu).  The upstream source was downloaded at
++http://dto.mamalala.org/notebook/eon.html and is distributed under the
++terms of the GPL3 license.  See @PREFIX@/share/doc/eon/COPYING for
++details.
+diff -Naur --exclude='*~' eon-1.1/fink/emacsen-install eon-1.1.fink/fink/emacsen-install
+--- eon-1.1/fink/emacsen-install	1969-12-31 16:00:00.000000000 -0800
++++ eon-1.1.fink/fink/emacsen-install	2008-09-16 10:38:25.000000000 -0700
+@@ -0,0 +1,47 @@
++#!/bin/bash -e
++#
++# install file for the fink eon emacs package.
++set -o posix
++
++FLAVOR=${1}
++
++echo >&2 "install/eon: Handling install of emacsen flavor ${FLAVOR}"
++
++if [ ${FLAVOR} == emacs20 ]
++then
++    echo "install/eon: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++if [ ${FLAVOR} == emacs21 ]
++then
++    echo "install/eon: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++if [ ${FLAVOR} == emacs ]
++then
++    exit 0
++fi
++
++if [ ${FLAVOR} == xemacs ]
++then
++    echo "install/eon: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++echo >&2 -n "install/eon: Byte-compiling for ${FLAVOR}..."
++
++mkdir -p @PREFIX@/share/${FLAVOR}/site-lisp/eon;
++
++ln -sf @PREFIX@/share/emacs/site-lisp/eon/eon.el @PREFIX@/share/${FLAVOR}/site-lisp/eon
++ln -sf @PREFIX@/share/emacs/site-lisp/eon/eon-guide.el @PREFIX@/share/${FLAVOR}/site-lisp/eon
++
++cd @PREFIX@/share/${FLAVOR}/site-lisp/eon;
++
++(${FLAVOR} -batch -f batch-byte-compile eon.el eon-guide.el 2>&1) | gzip -9qf > @PREFIX@/share/doc/eon/CompilationLog-${FLAVOR}.gz;
++
++echo >&2 "done."
++echo >&2 "install/eon: Compilation log saved in @PREFIX@/share/doc/eon/CompilationLog-${FLAVOR}.gz."
++
++exit 0
+diff -Naur --exclude='*~' eon-1.1/fink/emacsen-remove eon-1.1.fink/fink/emacsen-remove
+--- eon-1.1/fink/emacsen-remove	1969-12-31 16:00:00.000000000 -0800
++++ eon-1.1.fink/fink/emacsen-remove	2008-09-16 10:39:06.000000000 -0700
+@@ -0,0 +1,39 @@
++xb#!/bin/bash -e
++#
++# This is the Fink version of the eon emacs package.
++set -o posix
++
++FLAVOR=${1}
++
++echo "remove/eon: Handling removal for emacsen flavor ${FLAVOR}"
++
++if [ ${FLAVOR} == emacs20 ]
++then
++    echo "remove/eon: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++if [ ${FLAVOR} == emacs21 ]
++then
++    echo "remove/eon: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++if [ ${FLAVOR} == emacs ]
++then
++    exit 0
++fi
++
++if [ ${FLAVOR} == xemacs ]
++then
++    echo "remove/eon: Skipping unsupported flavor ${FLAVOR}"
++    exit 0
++fi
++
++echo >&2 -n "remove/eon: Purging compilation log and byte-compiled files for ${FLAVOR}..."
++rm -Rf @PREFIX@/share/emacs/site-lisp/eon
++rm -f @PREFIX@/share/doc/eon/CompilationLog-${FLAVOR}.gz
++rm -Rf @PREFIX@/share/${FLAVOR}/site-lisp/eon
++echo >&2 "done."
++    
++exit 0

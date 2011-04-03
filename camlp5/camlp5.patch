@@ -1,0 +1,18 @@
+diff -Naur --exclude='*~' camlp5-5.12/configure camlp5-5.12.fink/configure
+--- camlp5-5.12/configure	2008-10-17 15:36:10.000000000 +0100
++++ camlp5-5.12.fink/configure	2009-12-05 07:44:04.000000000 +0000
+@@ -1,10 +1,10 @@
+ #!/bin/sh
+ # $Id: configure 1917 2008-10-17 14:36:10Z deraugla $
+ 
+-prefix=''
+-bindir=''
+-libdir=''
+-mandir=''
++prefix='@PREFIX@'
++bindir='@PREFIX@/bin'
++libdir='@PREFIX@/lib'
++mandir='@PREFIX@/share/man'
+ mode=T
+ name=camlp5
+ 
