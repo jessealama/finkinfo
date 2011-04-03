@@ -1,23 +1,24 @@
 Package: bibtool
 Description: Manipulate BibTeX databases
-Version: 2.48
+Version: 2.51
 Revision: 1
 Maintainer: Jesse Alama <alama@stanford.edu>
 Homepage: http://www.gerd-neugebauer.de/software/TeX/BibTool
-Source-MD5: 20ebb18ea55e5f64b67f5b8edaa0d6fa
+Source-MD5: 0404647e6d1b2d4c2a34a6d1f4f9e375
 Depends: tetex-base | system-tetex
 Source: mirror:ctan:biblio/bibtex/utils/bibtool/BibTool-%v.tar.gz
+SourceDirectory: BibTool
 License: GPL
-DocFiles: COPYING README THANKS ToDo Doc/bibtool.dvi Doc/c_lib.dvi Doc/ref_card.dvi
+DocFiles: COPYING README THANKS ToDo Doc/ref_card.pdf Doc/c_lib.pdf Doc/bibtool.pdf
 CompileScript: <<
   ./configure %c --without-kpathsea
-  make DESTDIR=%d
+  make INSTALLPREFIX=%d DESTDIR=%dg
   cd Doc
   make dvi
   make dvi
 <<
 InstallScript: <<
-  make install install.man
+  make install install.man INSTALLPREFIX=%d DESTDIR=%dg
 <<
 DescDetail: <<
 BibTeX provides an easy to use means to integrate citations and
