@@ -1,57 +1,57 @@
-diff -Naur --exclude='*~' mc-4.7.0.2/contrib/Makefile.am mc-4.7.0.2.fink/contrib/Makefile.am
---- mc-4.7.0.2/contrib/Makefile.am	2009-12-30 09:21:28.000000000 +0100
-+++ mc-4.7.0.2.fink/contrib/Makefile.am	2010-02-25 10:48:30.000000000 +0100
-@@ -14,7 +14,7 @@
+diff -Naur mc-4.7.5.1/contrib/Makefile.am mc-4.7.5.1.fink/contrib/Makefile.am
+--- mc-4.7.5.1/contrib/Makefile.am	2011-01-19 01:13:55.000000000 +0100
++++ mc-4.7.5.1.fink/contrib/Makefile.am	2011-04-03 21:35:48.000000000 +0200
+@@ -8,7 +8,7 @@
  SCRIPTS_OUT = mc.csh mc.sh mc-wrapper.csh mc-wrapper.sh
  
  pkglibexec_SCRIPTS = $(SCRIPTS_OUT)
 -pkglibexecdir =		$(libexecdir)/@PACKAGE@
-+pkglibexecdir =		$(libexecdir)
++pkglibexecdir =		$(libexecdir)/
  
  cfgdir = $(sysconfdir)/@PACKAGE@
  cfg_DATA = \
-diff -Naur --exclude='*~' mc-4.7.0.2/contrib/Makefile.in mc-4.7.0.2.fink/contrib/Makefile.in
---- mc-4.7.0.2/contrib/Makefile.in	2010-02-02 16:24:33.000000000 +0100
-+++ mc-4.7.0.2.fink/contrib/Makefile.in	2010-02-25 10:48:20.000000000 +0100
-@@ -304,7 +304,7 @@
- SCRIPTS_IN = mc.csh.in mc.sh.in mc-wrapper.csh.in mc-wrapper.sh.in
- SCRIPTS_OUT = mc.csh mc.sh mc-wrapper.csh mc-wrapper.sh
- pkglibexec_SCRIPTS = $(SCRIPTS_OUT)
+diff -Naur mc-4.7.5.1/contrib/Makefile.in mc-4.7.5.1.fink/contrib/Makefile.in
+--- mc-4.7.5.1/contrib/Makefile.in	2011-02-05 17:06:08.000000000 +0100
++++ mc-4.7.5.1.fink/contrib/Makefile.in	2011-04-03 21:42:35.000000000 +0200
+@@ -158,7 +158,7 @@
+     dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
+   done; \
+   reldir="$$dir2"
 -pkglibexecdir = $(libexecdir)/@PACKAGE@
-+pkglibexecdir = $(libexecdir)
- cfgdir = $(sysconfdir)/@PACKAGE@
- cfg_DATA = \
- 	$(LIBFILES_ADD)
-diff -Naur --exclude='*~' mc-4.7.0.2/src/Makefile.in mc-4.7.0.2.fink/src/Makefile.in
---- mc-4.7.0.2/src/Makefile.in	2010-02-02 16:24:53.000000000 +0100
-+++ mc-4.7.0.2.fink/src/Makefile.in	2010-02-25 10:45:18.000000000 +0100
-@@ -368,7 +368,7 @@
- 	-DLOCALEDIR=\""$(localedir)"\" \
- 	-DSYSCONFDIR=\""$(sysconfdir)/@PACKAGE@/"\" $(am__append_3)
- AM_CFLAGS = $(GLIB_CFLAGS) -I$(top_srcdir) $(PCRE_CFLAGS)
++pkglibexecdir = $(libexecdir)/
+ ACLOCAL = @ACLOCAL@
+ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+diff -Naur mc-4.7.5.1/src/Makefile.in mc-4.7.5.1.fink/src/Makefile.in
+--- mc-4.7.5.1/src/Makefile.in	2011-02-05 17:06:13.000000000 +0100
++++ mc-4.7.5.1.fink/src/Makefile.in	2011-04-03 21:43:28.000000000 +0200
+@@ -192,7 +192,7 @@
+     dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
+   done; \
+   reldir="$$dir2"
 -pkglibexecdir = $(libexecdir)/@PACKAGE@
-+pkglibexecdir = $(libexecdir)
- mcmfmt_SOURCES = mfmt.c
- man2hlp_SOURCES = man2hlp.c
- man2hlp_LDADD = \
-diff -Naur --exclude='*~' mc-4.7.0.2/src/consaver/Makefile.am mc-4.7.0.2.fink/src/consaver/Makefile.am
---- mc-4.7.0.2/src/consaver/Makefile.am	2010-01-29 09:09:28.000000000 +0100
-+++ mc-4.7.0.2.fink/src/consaver/Makefile.am	2010-02-25 10:45:41.000000000 +0100
++pkglibexecdir = $(libexecdir)/
+ ACLOCAL = @ACLOCAL@
+ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+diff -Naur mc-4.7.5.1/src/consaver/Makefile.am mc-4.7.5.1.fink/src/consaver/Makefile.am
+--- mc-4.7.5.1/src/consaver/Makefile.am	2010-11-10 19:47:05.000000000 +0100
++++ mc-4.7.5.1.fink/src/consaver/Makefile.am	2011-04-03 21:44:20.000000000 +0200
 @@ -1,4 +1,4 @@
--pkglibexecdir =		$(libexecdir)/@PACKAGE@
-+pkglibexecdir =		$(libexecdir)
+-pkglibexecdir = $(libexecdir)/@PACKAGE@
++pkglibexecdir = $(libexecdir)/
  
  pkglibexec_PROGRAMS = cons.saver
  
-diff -Naur --exclude='*~' mc-4.7.0.2/src/consaver/Makefile.in mc-4.7.0.2.fink/src/consaver/Makefile.in
---- mc-4.7.0.2/src/consaver/Makefile.in	2010-02-02 16:24:54.000000000 +0100
-+++ mc-4.7.0.2.fink/src/consaver/Makefile.in	2010-02-25 10:46:15.000000000 +0100
-@@ -298,7 +298,7 @@
- top_build_prefix = @top_build_prefix@
- top_builddir = @top_builddir@
- top_srcdir = @top_srcdir@
+diff -Naur mc-4.7.5.1/src/consaver/Makefile.in mc-4.7.5.1.fink/src/consaver/Makefile.in
+--- mc-4.7.5.1/src/consaver/Makefile.in	2011-02-05 17:06:13.000000000 +0100
++++ mc-4.7.5.1.fink/src/consaver/Makefile.in	2011-04-03 21:44:49.000000000 +0200
+@@ -127,7 +127,7 @@
+ ETAGS = etags
+ CTAGS = ctags
+ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 -pkglibexecdir = $(libexecdir)/@PACKAGE@
-+pkglibexecdir = $(libexecdir)
- cons_saver_SOURCES = cons.saver.c
- cons_saver_CFLAGS = -I$(top_srcdir) $(GLIB_CFLAGS) $(PCRE_CFLAGS)
- cons_saver_LDADD = $(GLIB_LIBS) $(PCRE_LIBS)
++pkglibexecdir = $(libexecdir)/
+ ACLOCAL = @ACLOCAL@
+ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@

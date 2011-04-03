@@ -33,10 +33,10 @@ BuildDepends: <<
   libiconv-dev
 <<
 Source: http://www.midnight-commander.org/downloads/%n-%v.tar.gz
-Source-MD5: f48b2c8dd140aeb36f59d16a662f0779
+Source-MD5: e673b7ec0191e4061b5d8b69368aa113
 ConfigureParams: --with-netrc --without-x --with-screen=ncurses --mandir=%p/share/man --exec-prefix=%p --libexecdir=%p/bin
 PatchFile: %n.patch
-PatchFile-MD5: 439512fe8feb9ecf981f494387c3f3a3
+PatchFile-MD5: 6ecbe6b2a93b9ae2983017abb3c464e9
 InstallScript: make install DESTDIR=%d localedir=%p/share/locale
 DocFiles: <<
   doc/README
