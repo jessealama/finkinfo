@@ -23,9 +23,6 @@ Source2-MD5: 6e6b027a5fd05ef0c8faee30d89ffe54
 
 SourceDirectory: %n-%v
 
-PatchFile: %n.patch
-PatchFile-MD5: 2ded3efbc60740f040b72b997cdfc0d9
-
 CompileScript: <<
   SBCL_ARCH="x86" sh make.sh "../sbcl-1.0.29-x86-darwin/src/runtime/sbcl \
      	      --core ../sbcl-1.0.29-x86-darwin/output/sbcl.core \
