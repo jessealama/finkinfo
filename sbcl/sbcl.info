@@ -1,8 +1,10 @@
+Info4: <<
 Package: sbcl
-Architecture: i386
-Type: -32bit
-Version: 1.0.33
-Revision: 1
+Architecture: ( %type_raw[-64bit] = -64bit ) i386
+Type: -64bit (boolean)
+GCC: 4.0
+Version: 1.0.47
+Revision: 2
 License: BSD
 Description: ANSI Common Lisp implementation
 Maintainer: Jesse Alama <jesse.alama@gmail.com>
@@ -12,21 +14,38 @@ Maintainer: Jesse Alama <jesse.alama@gmail.com>
 # need to be updated by hand when moving to a new version of the
 # bootstap binary
 
-BuildDepends: texinfo (>= 4.6)
+Depends: <<
+( %type_raw[-64bit] = -64bit ) 64bit-cpu
+<<
+
+BuildDepends: texinfo (>= 4.6), fink (>= 0.24.12)
 
 Recommends: gnupg | gnupg-idea | gnupg-testing
 
 Source: mirror:sourceforge:sbcl/sbcl-%v-source.tar.bz2
-Source2: mirror:sourceforge:sbcl/sbcl-1.0.29-x86-darwin-binary-r2.tar.bz2
-Source-MD5: ccaf6a4a59649e902e01afc3ed69d10a
-Source2-MD5: 6e6b027a5fd05ef0c8faee30d89ffe54
+Source2: mirror:sourceforge:sbcl/sbcl-1.0.47-x86-64-darwin-binary.tar.bz2
+Source-MD5: 2e90fca5ffec9ce19ed232b24f09cd0a
+Source2-MD5: 4077c0d36c6ee49b9fe2d03a1f8c5059
 
 SourceDirectory: %n-%v
 
 CompileScript: <<
-  SBCL_ARCH="x86" sh make.sh "../sbcl-1.0.29-x86-darwin/src/runtime/sbcl \
-     	      --core ../sbcl-1.0.29-x86-darwin/output/sbcl.core \
-              --disable-debugger --sysinit /dev/null --userinit /dev/null"
+#! /bin/sh -ev
+  if [ "%type_raw[-64bit]" == "." ]; then
+    SBCL_ARCH="x86-64"
+  else
+    SBCL_ARCH="x86"
+  fi
+
+  export SBCL_ARCH
+
+  ulimit -s 8192 && unset LD_PREBIND && unset LD_PREBIND_ALLOW_OVERLAP && CC=gcc-4.2 sh make.sh \
+    --prefix=%p \
+    --xc-host="../sbcl-1.0.47-x86-64-darwin/src/runtime/sbcl \
+                 --core ../sbcl-1.0.47-x86-64-darwin/output/sbcl.core \
+                 --disable-debugger \
+                 --no-sysinit \
+                 --no-userinit"
   cd doc/manual ; make html info
 <<
 
@@ -56,4 +75,21 @@ extensions, such as a foreign function interface, and support for Unix
 
 DescPort: <<
 Uses a pre-compiled SBCL binary for bootstrapping.
+
+At one point, the HTML documentation for this package included a file
+whose name was so long that it was killing dpkg.  Thus, the following
+bit used to be in the InstallScript section, but as of version 1.0.44,
+it seems not to be needed anymore.  I include this because upstream
+may reintroduce the problem, and we may need to reintroduce our solution.
+
+# Due to a limitation with dpkg, we need to kill the following file,
+# whose name is simply too long.  See 
+#
+#  http://article.gmane.org/gmane.os.macosx.fink.devel/18731
+#
+# to learn more about the strangeness that can ensue because of
+# this limitation of dpkg.
+
+# rm %i/share/doc/sbcl/html/sbcl/Method-sb_002dbsd_002dsockets_003asocket_002dmake_002dstream-_0028_0028socket-socket_0029-_0026key-input-output-_0028element_002dtype-_0027character_0029-_0028buffering-full_0029-_0028external_002dformat-default_0029-timeout_0029.html
+<<
 <<
