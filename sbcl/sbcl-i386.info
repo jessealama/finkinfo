@@ -21,6 +21,9 @@ Source2: mirror:sourceforge:sbcl/sbcl-1.0.29-x86-darwin-binary-r2.tar.bz2
 Source-MD5: f60f27bcc04d1c9241562aafe4ee5d4a
 Source2-MD5: 6e6b027a5fd05ef0c8faee30d89ffe54
 
+PatchFile: %n.patch
+PatchFile-MD5: 534112c1de9f2e479ad57ac2c545160c
+
 SourceDirectory: %n-%v
 
 CompileScript: <<
