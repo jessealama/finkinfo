@@ -1,11 +1,21 @@
 Package: parallel
 Description: Execute multiple jobs
-Version: 20110622
+Version: 20120622
 Revision: 1
 Homepage: http://www.gnu.org/software/parallel/
 Maintainer: Jesse Alama <jesse.alama@gmail.com>
 Source: mirror:gnu:%n/%n-%v.tar.bz2
-Source-MD5: 101ce0d674d43b3051c868bbc8b3ed60
+Source-MD5: b3ee68d13b89aa3ee54ee54b447441be
+CompileScript: <<
+#!/bin/sh -ev
+export SHELL="/bin/sh"
+%{default_script}
+<<
+InstallScript: <<
+#!/bin/sh -ev
+export SHELL="/bin/sh"
+%{default_script}
+<<
 DescDetail: <<
 GNU parallel is a shell tool for executing jobs in parallel locally or
 using remote computers. A job is typically a single command or a small
