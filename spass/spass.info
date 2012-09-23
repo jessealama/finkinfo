@@ -6,7 +6,7 @@ BuildDepends: fink (>= 0.24.12)
 Homepage: http://www.spass-prover.org/
 Maintainer: Jesse Alama <jesse.alama@gmail.com>
 License: OSI-Approved
-Source: http://www.spass-prover.org/download/sources/spass37.tgz
+Source: http://www.spass-prover.org/download/sources/%n37.tgz
 Source-MD5: 6505f4f3ad91cc289d9dd73889ebb304
 PatchFile: %n.patch
 PatchFile-MD5: f9c8bf0c2465b58987e69a0110ab62b4
@@ -27,5 +27,3 @@ If you are interested in sex, drugs, rock'n roll or fish, even though
 our logo contains a nice drawing of Opistognathus Latitabunda, you may
 be disappointed by the performance of SPASS.
 <<
-
-
