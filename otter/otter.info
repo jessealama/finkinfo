@@ -2,20 +2,21 @@ Package: otter
 Version: 3.3f
 Description: Tools for first-order models and theorems
 Revision: 1
-Maintainer: Jesse Alama <alama@stanford.edu>
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
 Homepage: http://www-unix.mcs.anl.gov/AR/otter/
 Source: http://www-unix.mcs.anl.gov/AR/otter/dist33/%n-%v.tar.gz
 Source-MD5: 795711b307cc1316e08d3d4f46c998c9
 DocFiles: README.first README README.Ivy Legal documents/otter33.pdf documents/mace2.pdf documents/anldp.pdf
 License: Public Domain
 CompileScript: <<
-  make all
+  make -C source otter
+  make -C mace2 mace2 anldp
 <<
 InstallScript: <<
-  mkdir -p %i/bin
-  install -m 755 bin/otter %i/bin
-  install -m 755 bin/mace2 %i/bin
-  install -m 755 bin/anldp %i/bin
+  mkdir %i/bin
+  install -m 755 source/otter %i/bin
+  install -m 755 mace2/mace2 %i/bin
+  install -m 755 mace2/anldp %i/bin
 <<
 DescDetail: <<
 This package contains OTTER, MACE, and ANLDP, three programs developed
@@ -43,5 +44,3 @@ OTTER searching for proofs and MACE looking for countermodels.
 ANLDP is a model generation program based on the Davis-Putnam method
 for solving the propositional satisfiability problem.
 <<
-
-
