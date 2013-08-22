@@ -1,0 +1,49 @@
+diff -Naur '--exclude=*~' elinks-0.12pre6/Makefile.config.in elinks-0.12pre6.fink/Makefile.config.in
+--- elinks-0.12pre6/Makefile.config.in	2012-10-28 13:57:15.000000000 +0100
++++ elinks-0.12pre6.fink/Makefile.config.in	2013-05-30 17:37:01.000000000 +0200
+@@ -176,7 +176,7 @@
+ LIBS = @LIBS@
+ 
+ 
+-INCLUDES = -I$(top_builddir) -I$(top_srcdir)/src
++INCLUDES = -I$(top_builddir) -I$(top_srcdir)/src -I$(top_srcdir)/src/intl/gettext
+ 
+ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+ 
+@@ -193,4 +193,3 @@
+ ### it always as the default one. So this should make sure it always
+ ### comes first.
+ all:
+-
+diff -Naur '--exclude=*~' elinks-0.12pre6/configure elinks-0.12pre6.fink/configure
+--- elinks-0.12pre6/configure	2012-10-28 14:00:58.000000000 +0100
++++ elinks-0.12pre6.fink/configure	2013-05-30 17:37:41.000000000 +0200
+@@ -24808,6 +24808,7 @@
+ # linker from finding the libraries listed in -l operands.  So this
+ # -rdynamic check needs to happen after the libraries have already
+ # been added to $LDFLAGS.
++if false; then
+ { echo "$as_me:$LINENO: checking for -rdynamic" >&5
+ echo $ECHO_N "checking for -rdynamic... $ECHO_C" >&6; }
+ LDFLAGS_X="$LDFLAGS"
+@@ -24858,6 +24859,7 @@
+ test "$have_rdynamic" = no && LDFLAGS="$LDFLAGS_X"
+ { echo "$as_me:$LINENO: result: $have_rdynamic" >&5
+ echo "${ECHO_T}$have_rdynamic" >&6; }
++fi
+ 
+ # ===================================================================
+ # Export directory paths
+diff -Naur '--exclude=*~' elinks-0.12pre6/src/intl/charsets.c elinks-0.12pre6.fink/src/intl/charsets.c
+--- elinks-0.12pre6/src/intl/charsets.c	2012-10-28 13:57:15.000000000 +0100
++++ elinks-0.12pre6.fink/src/intl/charsets.c	2013-05-30 17:44:09.000000000 +0200
+@@ -819,7 +819,8 @@
+ 
+ 	/* Cast away const.  */
+ 	for (i = 128; i < 256; i++)
+-		mem_free((unsigned char *) utf_table[i].u.str);
++                utf_table[i].u.str = NULL;
++                // mem_free((unsigned char *) utf_table[i].u.str);
+ }
+ 
+ static struct conv_table *
