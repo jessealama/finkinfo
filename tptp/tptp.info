@@ -1,13 +1,13 @@
 Package: tptp
 Description: Thousands of Problems for Theorem Provers
 Homepage: http://www.tptp.org
-Version: 5.4.0
+Version: 6.0.0
 Revision: 1
 License: Commercial
 Source: http://www.cs.miami.edu/~tptp/TPTP/Distribution/TPTP-v%v.tgz
-Source-MD5: 1b844f1a804101970edc34acd646174f
+Source-MD5: dffabadd1b543a57f04e7cc3aa55d0b9
 PatchFile: %n.patch
-PatchFile-MD5: 6f617f5498365ad44546dafe68ef3924
+PatchFile-MD5: ce966d47ea0f35e274bc1d0061284730
 PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile} | patch -p1
 DescDetail: <<
 The TPTP (Thousands of Problems for Theorem Provers) Problem Library
