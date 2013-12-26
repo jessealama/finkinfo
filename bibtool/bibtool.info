@@ -1,21 +1,21 @@
 Package: bibtool
 Description: Manipulate BibTeX databases
-Version: 2.51
+Version: 2.55
 Revision: 1
 Maintainer: Jesse Alama <alama@stanford.edu>
 Homepage: http://www.gerd-neugebauer.de/software/TeX/BibTool
-Source-MD5: 0404647e6d1b2d4c2a34a6d1f4f9e375
+Source-MD5: b075749769f0535363e223cb670f7a06
 Depends: tetex-base | system-tetex
 Source: mirror:ctan:biblio/bibtex/utils/bibtool/BibTool-%v.tar.gz
+PatchFile: %n.patch
+PatchFile-MD5: 10471af4f003816f8aaab7ffe283db79
 SourceDirectory: BibTool
 License: GPL
 DocFiles: COPYING README THANKS ToDo Doc/ref_card.pdf Doc/c_lib.pdf Doc/bibtool.pdf
 CompileScript: <<
   ./configure %c --without-kpathsea
   make INSTALLPREFIX=%d DESTDIR=%dg
-  cd Doc
-  make dvi
-  make dvi
+  make -C Doc
 <<
 InstallScript: <<
   make install install.man INSTALLPREFIX=%d DESTDIR=%dg
@@ -52,5 +52,5 @@ possibilities of BibTool include
 * Macro (String) expansion to eliminate the need of extra string
   definitions.
 
-* Collecting statistics about one or more BibTeX data bases. 
+* Collecting statistics about one or more BibTeX data bases.
 <<
