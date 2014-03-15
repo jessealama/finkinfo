@@ -15,11 +15,12 @@ Source2ExtractDir: LADR-%type_raw[w]
 PatchFile: %n.patch
 PatchFile-MD5: 9c9ce8cf46b3c7f74152cb1fdd0b1909
 PatchScript: sed 's|@PREFIX@|%i|g' < %{PatchFile} | patch -p1
+UseMaxBuildJobs: 1
 CompileScript: <<
-  make -j 1 all
-  make -j 1 test1
-  make -j 1 test2
-  make -j 1 test3
+  make all
+  make test1
+  make test2
+  make test3
 <<
 InstallScript: <<
   mkdir -p %i/share/xml/xsl
