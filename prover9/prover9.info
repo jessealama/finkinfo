@@ -3,7 +3,7 @@ Package: prover9
 Description: Prove theorems and build models
 Version: 2009-11a
 Type: w (2009-11A)
-Revision: 4
+Revision: 5
 License: OSI-Approved
 BuildDepends: fink (>= 0.24.12)
 Source: http://www.cs.unm.edu/~mccune/prover9/download/LADR-%type_raw[w].tar.gz
