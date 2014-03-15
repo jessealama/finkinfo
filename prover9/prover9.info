@@ -16,6 +16,7 @@ PatchFile: %n.patch
 PatchFile-MD5: 9c9ce8cf46b3c7f74152cb1fdd0b1909
 PatchScript: sed 's|@PREFIX@|%i|g' < %{PatchFile} | patch -p1
 UseMaxBuildJobs: 1
+SetCFLAGS: -O4
 CompileScript: <<
   make all
   make test1
