@@ -1,0 +1,32 @@
+Info3: <<
+  Package: test-mocktime-pm%type_pkg[perl]
+  Version: 0.12
+  Revision: 1
+  Description: Replace actual time with simulated time
+  Type: perl (5.16.2)
+  License: Artistic
+  Maintainer: Jesse Alama <jesse.alama@gmail.com>
+  Depends: <<
+    fink (>= 0.26.0-1),
+    perl%type_pkg[perl]-core,
+    test-simple-pm%type_pkg[perl],
+    time-piece-pm%type_pkg[perl],
+    time-local-pm,
+  <<
+  Source: mirror:cpan:authors/id/D/DD/DDICK/Test-MockTime-%v.tar.gz
+  Source-MD5: de726192bcdd0cef68a07ffdf11d7300
+  UpdatePOD: true
+  InstallScript: <<
+    %{default_script}
+    mv %i/share/man %i/lib/perl5/%type_raw[perl]
+  <<
+  DocFiles: Changes
+  Homepage: http://search.cpan.org/dist/Test-MockTime/
+  DescDetail: <<
+This module was created to enable test suites to test code at specific
+points in time. Specifically it overrides localtime, gmtime and time
+at compile time and then relies on the user supplying a mock time via
+set_relative_time, set_absolute_time or set_fixed_time to alter future
+calls to gmtime,time or localtime.
+  <<
+<<

@@ -1,9 +1,0 @@
-Date::Time
-Date::Time::Locale
-DateTime::TimeZone
-XML:RSS
-DateTime::Format::W3CCDTF
-DateTime::Format::Mail
-Feed::Find
-XML::Feed
-Net::Amazon::S3

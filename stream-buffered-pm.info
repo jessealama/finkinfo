@@ -1,0 +1,29 @@
+Info3: <<
+  Package: stream-buffered-pm%type_pkg[perl]
+  Version: 0.02
+  Revision: 1
+  Description: Temporary buffer to save bytes
+  Type: perl (5.16.2)
+  License: Artistic
+  Maintainer: Jesse Alama <jesse.alama@gmail.com>
+  Depends: <<
+    fink (>= 0.26.0-1),
+    perl%type_pkg[perl]-core,
+    extutils-makemaker-pm%type_pkg[perl],
+  <<
+  Source: mirror:cpan:authors/id/D/DO/DOY/Stream-Buffered-%v.tar.gz
+  Source-MD5: 63d7776365a4ffd22f15002e03781c01
+  UpdatePOD: true
+  InstallScript: <<
+    %{default_script}
+    mv %i/share/man %i/lib/perl5/%type_raw[perl]
+  <<
+  DocFiles: Changes README
+  Homepage: http://search.cpan.org/dist/Stream-Buffered/
+  DescDetail: <<
+Stream::Buffered is a buffer class to store arbitrary length of byte
+strings and then get a seekable filehandle once everything is
+buffered. It uses PerlIO and/or temporary file to save the buffer
+depending on the length of the size.
+  <<
+<<

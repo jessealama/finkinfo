@@ -1,11 +1,11 @@
 Info2: <<
 Package: datetime-pm%type_pkg[perl]
-Version: 0.4501
+Version: 0.53
 Revision: 1
 Architecture: (%type_pkg[perl] = 581) powerpc, (%type_pkg[perl] = 584) powerpc
-Distribution: (%type_pkg[perl] = 581) 10.4, (%type_pkg[perl] = 584) 10.4, (%type_pkg[perl] = 586) 10.4, (%type_pkg[perl] = 586) 10.5
+Distribution: (%type_pkg[perl] = 581) 10.4, (%type_pkg[perl] = 584) 10.4, (%type_pkg[perl] = 586) 10.4, (%type_pkg[perl] = 586) 10.5, (%type_pkg[perl] = 5100) 10.6
 Description: Perl date and time object
-Type: perl(5.8.1 5.8.4 5.8.6 5.8.8)
+Type: perl(5.8.1 5.8.4 5.8.6 5.8.8 5.10.0)
 License: Artistic
 Maintainer: Benjamin Reed <datetime-pm@fink.racoonfink.com>
 
@@ -15,7 +15,6 @@ Depends: <<
 	fink (>= 0.28.0-1),
 	params-validate-pm%type_pkg[perl] (>= 0.76-1),
 	perl%type_pkg[perl]-core,
-	test-simple-pm%type_pkg[perl] (>= 0.34-1),
 	time-local-pm (>= 1.04-1)
 <<
 BuildDepends: <<
@@ -24,12 +23,11 @@ BuildDepends: <<
 	fink (>= 0.28.0-1),
 	params-validate-pm%type_pkg[perl] (>= 0.76-1),
 	perl%type_pkg[perl]-core,
-	test-simple-pm%type_pkg[perl] (>= 0.34-1),
 	time-local-pm (>= 1.04-1)
 <<
 
 Source: mirror:cpan:modules/by-module/DateTime/DateTime-%v.tar.gz
-Source-MD5: 890270f12eb4eb07dc1ddf8b26794ffe
+Source-MD5: bc2db48557d9520ad5095895daa1cb0b
 
 UpdatePOD: true
 InstallScript: <<
