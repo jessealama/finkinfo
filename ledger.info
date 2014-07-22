@@ -1,84 +1,87 @@
+Info3: <<
 Package: ledger
-Version: 2.6.3
+Version: 3.0.3
 Revision: 1
-Source: https://github.com/downloads/jwiegley/%n/%n-%v.tar.gz
-Maintainer: Jesse Alama <alama@stanford.edu>
+Source: https://github.com/ledger/ledger/archive/v%v.tar.gz
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
 Homepage: http://ledger-cli.org/
 License: BSD
 Description: Maintain double-entry ledgers
-Source-MD5: 6d5d8396b1cdde5f605854c7d21d1460
+Source-MD5: 481ef13c0ccfc5466ffc446672d492a5
 PatchFile: %n.patch
-PatchFile-MD5: eddb60ce0e2e9535e3b8d8c4743fedc9
+PatchFile-MD5: fc76e86bd5118ba380dc55717933e2cb
 PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile} | patch -p1
-BuildDepends: gmp5, libofx4, libwww, pcre, expat1, opensp5-dev, libgettext3-dev, libiconv-dev, fink (>= 0.24.12)
+BuildDepends: <<
+  gmp5,
+  libpcre1,
+  libicu48-dev,
+  libmpfr4,
+  expat1,
+  opensp5-dev,
+  libgettext8-dev,
+  libiconv-dev,
+  cmake,
+  boost1.53.nopython | boost1.53.python27 | boost1.53.python32 | boost1.53.python33 | boost1.53.systempython,
+  fink (>= 0.24.12),
+  gmp5-shlibs,
+  libpcre1-shlibs,
+<<
 GCC: 4.0
-Depends: libofx4-shlibs, libwww-shlibs, expat1-shlibs, opensp5-shlibs, libgettext3-shlibs, libiconv, %n-shlibs
+Shlibs: %p/lib/libledger.3.dylib 3.0.0 %n-shlibs (>= 3.0.3-1)
+SourceDirectory: %n-%v
+Depends: <<
+  libicu48-shlibs,
+  libmpfr4-shlibs,
+  expat1-shlibs,
+  opensp5-shlibs,
+  libgettext8-shlibs,
+  libiconv,
+  %n-shlibs,
+  boost1.53.nopython-shlibs | boost1.53.python27-shlibs | boost1.53.python32-shlibs | boost1.53.python33-shlibs | boost1.53.systempython-shlibs,
+<<
 Suggests: gnuplot
-Enhances: gnucash
-SetCPPFLAGS: -I%p/include/libofx -I%p/include/w3c-libwww
+SetCXXFLAGS: -I%p/include
 InfoDocs: ledger
 CompileScript: <<
-  EMACS="no" ./configure %c
-  make
+  ./acprep --boost-include=%p/include/boost-1_53/include --boost-suffix=-mt config
+  ./acprep --boost-include=%p/include/boost-1_53/include --boost-suffix=-mt make
+  /usr/bin/makeinfo doc/ledger3.texi
+  /usr/bin/makeinfo doc/ledger-mode.texi
 <<
 InstallScript: <<
-  make install-binPROGRAMS prefix=%i
-  make install-pkgincludeHEADERS prefix=%i
-  make install-libLTLIBRARIES prefix=%i
+  # doc (man, info)
+  mkdir -p %i/share/man/man1
+  install -m 644 doc/ledger.1 %i/share/man/man1
+  mkdir -p %i/share/info
+  find doc -mindepth 1 -maxdepth 1 -type f -name 'ledger3.info*' -exec install -m 644 {} %i/share/info/ ';'
+  find doc -mindepth 1 -maxdepth 1 -type f -name 'ledger-mode.info*' -exec install -m 644 {} %i/share/info/ ';'
+  # emacs
   mkdir -p %i/share/emacs/site-lisp/ledger
-  install -m 644 ledger.el %i/share/emacs/site-lisp/ledger
+  find lisp -mindepth 1 -maxdepth 1 -type f -name '*.el' -exec install -m 644 {} %i/share/emacs/site-lisp/ledger ';'
   mkdir -p %i/lib/emacsen-common/packages/install
   mkdir -p %i/lib/emacsen-common/packages/remove
   install -m 755 fink/emacsen-install %i/lib/emacsen-common/packages/install/%n
   install -m 755 fink/emacsen-remove %i/lib/emacsen-common/packages/remove/%n
-  mkdir -p %i/share/doc/ledger/scripts
-  install -m 755 scripts/* %i/share/doc/ledger/scripts
-  mkdir -p %i/share/doc/ledger/extras
-  install -m 644 ledger.vim %i/share/doc/ledger/extras
-  mkdir -p %i/share/doc/ledger/examples
-  install -m 644 sample.dat %i/share/doc/ledger/examples
-  mkdir -p %i/share/info
-  install -m 644 ledger.info %i/share/info/ledger
   mkdir -p %i/etc/emacs/site-start.d
   install -m 644 fink/50ledger.el %i/etc/emacs/site-start.d
+  # dylibs
+  mkdir -p %i/lib
+  install -m 644 libledger.3.dylib %i/lib
 <<
-DocFiles: LICENSE README NEWS TODO
+DocFiles: doc/LICENSE doc/LICENSE-utfcpp doc/grammar.y doc/GLOSSARY.md doc/NEWS
 DescDetail: <<
 Ledger is a command-line accounting tool for maintaing doubly-entry
 ledgers.  The syntax for ledger files is simple (see the file
 `sample.dat' in the `examples' subdirectory of the Ledger
 documentation directory) and can be maintained using only a text
-editor.  But it is not necessary to use a text editor to maintain
-ledger files: it's possible to use the Gnucash package for this
-purpose.
-
-Several example python scripts for performing typical calculations are
-included.  They can be found in the ledger documentation directory, in
-the `extras' subdirectory.  Some of these scripts draw graphs using
-the Gnuplot package.
-
-A vim configuration can be found in the `extras' subdirectory of the
-ledger documentation directory %p/share/doc/ledger .
+editor.
 <<
 SplitOff: <<
-  Package: %N-shlibs
-  Depends: gmp5-shlibs, pcre-shlibs
-  Files: lib/libamounts.0*.dylib lib/libledger-*.dylib
-  Shlibs: <<
-    %p/lib/libledger-%v.dylib 0.0.0 %n (>= 2.6.3-1)
-    %p/lib/libamounts.0.dylib 1.0.0 %n (>= 2.6.3-1)
-  <<
-<<
-SplitOff2: <<
-  Package: %N-dev
-  Files: include
-<<
-SplitOff3: <<
   Package: ledger-el
   Depends: emacsen-common, ledger
-  Description: Maintain a double-entry ledger with emacs
+  Description: Maintain a double-entry ledger with Emacs
   Files: <<
-    share/emacs/site-lisp/ledger/ledger.el
+    share/emacs/site-lisp/ledger/*.el
     lib/emacsen-common/packages/install/%N
     lib/emacsen-common/packages/remove/%N
     etc/emacs/site-start.d/50ledger.el
@@ -92,12 +95,13 @@ SplitOff3: <<
     %p/lib/emacsen-common/emacs-package-install %n
   <<
   DescDetail: <<
-Issue the command `M-x ledger' when you're visiting ledger files to
-turn on ledger mode.  A useful tip: put a file-local variable
+Issue the command `M-x ledger-mode' when you're visiting ledger files
+to turn on ledger mode.  A useful tip: put a file-local variable
 
-; -*- mode: ledger; -*-
+; -*- mode: ledger-mode; -*-
 
 into the top or bottom of your ledger files to get emacs to
 automatically turn on ledger-mode when visiting ledger files.
-  <<
+<<
+<<
 <<
