@@ -1,0 +1,58 @@
+Package: ocaml-cudf
+Version: 0.7
+Revision: 1
+Depends: <<
+    ocaml,
+    ocaml-findlib,
+    camlp4
+<<
+Source: https://gforge.inria.fr/frs/download.php/file/33593/cudf-%v.tar.gz
+Source-MD5: 2047222fcf78278c6a24ac619fc39abb
+UseMaxBuildJobs: False
+PatchFile: %n.patch
+PatchFile-MD5: f1ef3192d873f75a01754d8ad6b084c0
+PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile} | patch -p1
+CompileScript: <<
+make
+<<
+InstallScript: <<
+make install DESTDIR=%d prefix=%p
+mkdir -p %i/lib/ocaml/site-lib/
+mv %i/lib/ocaml/cudf %i/lib/ocaml/site-lib/cudf
+cp META %i/lib/ocaml/site-lib/cudf
+<<
+DocFiles: BUGS COPYING ChangeLog README TODO
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/cudf\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/cudf" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/cudf\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+Description: Common Upgradeability Description Format
+DescDetail: <<
+libCUDF is a library to manipulate so called CUDF documents. A CUDF
+document describe an upgrade problem, as faced by package managers in
+popular package-based GNU/Linux distributions.
+
+A CUDF document consists of a package universe and of a user
+request. The package universe describes all packages known to the
+package manager, a subset of which (the package status) denotes the
+package being currently installed on the target machine. The user
+request denotes a change to the package status as requested by the
+user.
+
+A CUDF document is naturally complemented by a solution describing the
+resulting package status (if any) implementing the user request, as
+found by a package manager.
+
+libCUDF enables manipulation of CUDF and related documents.
+
+This package contains all the development stuff you need to use
+libCUDF in your OCaml programs.
+<<
+License: LGPL
+Homepage: http://www.mancoosi.org/cudf/
+Maintainer: Jesse Alama <jesse.alama@gmail.com>

@@ -1,0 +1,14 @@
+diff -Naur --exclude='*~' cudf-0.7/Makefile.config cudf-0.7.fink/Makefile.config
+--- cudf-0.7/Makefile.config	2014-04-29 20:52:44.000000000 +0200
++++ cudf-0.7.fink/Makefile.config	2014-09-11 16:57:02.000000000 +0200
+@@ -5,7 +5,7 @@
+ # all the following variables will be prepended by $(DESTDIR) upon install
+ 
+ export OCAMLLIBDIR := $(shell ocamlc -where)
+-export BINDIR  = /usr/bin
+-export LIBDIR = /usr/lib
+-export INCDIR = /usr/include
++export BINDIR  = @PREFIX@/bin
++export LIBDIR = @PREFIX@/lib
++export INCDIR = @PREFIX@/include
+ export PCDIR   = $(LIBDIR)/pkgconfig
