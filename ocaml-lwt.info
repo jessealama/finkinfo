@@ -1,0 +1,69 @@
+Package: ocaml-lwt
+Version: 2.4.5
+Revision: 1
+Depends: ocaml, ocaml-findlib, camlp4, pkgconfig
+BuildDepends: libev4
+Source: https://github.com/ocsigen/lwt/archive/%v.tar.gz
+Source-MD5: 9a9b4c92bd4bf321a4fb9804be75d168
+SourceDirectory: lwt-%v
+CompileScript: <<
+ocaml setup.ml -configure --prefix "%p"
+ocaml setup.ml -build
+<<
+UseMaxBuildJobs: False
+InstallScript: <<
+mkdir -p %i/lib/ocaml/site-lib/lwt
+cp -R _build/src/* %i/lib/ocaml/site-lib/lwt
+<<
+DocFiles: CHANGES COPYING LICENSE README
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/lwt\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/lwt" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/lwt\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+Description: Lightweight threads for OCaml
+DescDetail: <<
+When writing a program, a common developer's task is to handle IO
+operations. Indeed most software interact with several different
+resources, such as:
+
+* the kernel, by doing system calls
+* the user, by reading the keyboard, the mouse, or any input device
+* a graphical server, to build graphical user interface
+* other computers, by using the network
+* ...
+
+When this list contains only one item, it is pretty easy to
+handle. However as this list grows it becomes harder and harder to
+make everything works together. Several choices have been proposed to
+solve this problem:
+
+using a main loop, and integrate all components we are interacting
+with into this main loop.  using preemptive system threads Both
+solutions have their advantages and their drawbacks. For the first
+one, it may work, but it becomes very complicated to write a piece of
+asynchronous sequential code. The typical example is graphical user
+interfaces freezing and not redrawing themselves because they are
+waiting for some blocking part of the code to complete.
+
+If you already wrote code using preemptive threads, you should know
+that doing it right with threads is a hard job. Moreover system
+threads consume non negligible resources, and so you can only launch a
+limited number of threads at the same time. Thus this is not a real
+solution.
+
+Lwt offers a new alternative. It provides very light-weight
+cooperative threads; ``launching'' a thread is a very fast operation,
+it does not require a new stack, a new process, or anything
+else. Moreover context switches are very fast. In fact, it is so easy
+that we will launch a thread for every system call. And composing
+cooperative threads will allow us to write highly asynchronous
+programs.
+<<
+License: LGPL
+Homepage: http://ocsigen.org/lwt/
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
