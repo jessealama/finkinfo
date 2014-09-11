@@ -1,0 +1,37 @@
+Package: ocaml-re
+Version: 1.2.2
+Revision: 1
+Depends: ocaml, ocaml-findlib
+Source: https://github.com/ocaml/%n/archive/%n-%v.tar.gz
+Source-MD5: 3adbc37481dc48c6a1f2f85bbf2a7c51
+SourceDirectory: %n-%n-%v
+UseMaxBuildJobs: false
+BuildDepends: make
+PatchFile: %n.patch
+PatchFile-MD5: 27cbd5c06932e614eb4196ef280f1299
+PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile} | sed 's|@DESTDIR@|%d|g' | patch -p1
+CompileScript: <<
+make all
+<<
+InstallScript: <<
+  mkdir -p %i/lib/ocaml/site-lib
+  make install
+  mv %d/re %i/lib/ocaml/site-lib/
+  mv %i/share/doc/re %i/share/doc/%n
+<<
+DocFiles: CHANGES LICENSE README.md TODO.txt
+
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/re\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/re" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/re\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+
+Description: Pure OCaml regular expressions
+License: LGPL
+Homepage: https://github.com/ocaml/ocaml-re/
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
