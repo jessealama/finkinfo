@@ -1,0 +1,38 @@
+Package: ocaml-cmdliner
+Version: 0.9.5
+Revision: 1
+Depends: ocaml, ocaml-findlib
+Source: http://erratique.ch/software/cmdliner/releases/cmdliner-%v.tbz
+Source-MD5: a5195004312cd99bacde7de232bab73b
+CompileScript: <<
+ocaml pkg/build.ml native=true native-dynlink=true
+<<
+InstallScript: <<
+mkdir -p %i/lib/ocaml/site-lib/cmdliner
+cp _build/pkg/META %i/lib/ocaml/site-lib/cmdliner
+cp _build/src/* %i/lib/ocaml/site-lib/cmdliner
+<<
+DocFiles: README.md TODO.md CHANGES.md doc/*.html doc/*.css
+
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/cmdliner\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/cmdliner" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/cmdliner\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+
+Description: Declaratively define commandline interfaces
+DescDetail: <<
+Cmdliner provides a simple and compositional mechanism to convert
+command line arguments to OCaml values and pass them to your
+functions. The module automatically handles syntax errors, help
+messages and UNIX man page generation. It supports programs with
+single or multiple commands (like darcs or git) and respect most of
+the POSIX and GNU conventions.
+<<
+License: BSD
+Homepage: http://erratique.ch/software/cmdliner
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
