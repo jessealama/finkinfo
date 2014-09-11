@@ -1,0 +1,42 @@
+Package: ocaml-react
+Version: 1.2.0
+Revision: 1
+Depends: ocaml, ocaml-findlib
+Source: http://erratique.ch/software/react/releases/react-%v.tbz
+Source-MD5: f071a1308b6cad131c55cda8677823c3
+CompileScript: <<
+ocaml pkg/build.ml native=true native-dynlink=true
+<<
+InstallScript: <<
+mkdir -p %i/lib/ocaml/site-lib/react
+cp _build/pkg/META %i/lib/ocaml/site-lib/react
+cp _build/src/* %i/lib/ocaml/site-lib/react
+<<
+DocFiles: README.md TODO.md CHANGES.md doc/*.html doc/*.css
+
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/react\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/react" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/react\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+
+Description: Functional reactive programming in OCaml
+DescDetail: <<
+React is an OCaml module for functional reactive programming (FRP). It
+provides support to program with time varying values: declarative
+events and signals.
+
+React is made of a single, independent, module and distributed under
+the BSD3 license.
+
+Given an absolute notion of time the Rtime module helps you to manage
+a timeline and provides time stamp events, delayed events and delayed
+signals.
+<<
+License: BSD
+Homepage: http://erratique.ch/software/react
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
