@@ -1,0 +1,52 @@
+Package: ocaml-ocamlgraph
+Version: 1.8.5
+Revision: 1
+Depends: ocaml, ocaml-findlib
+Source: http://ftp.debian.org/debian/pool/main/o/ocamlgraph/ocamlgraph_%v.orig.tar.gz
+Source-MD5: f4734d80d8a32febcde953d5b9812f42
+SourceDirectory: ocamlgraph-%v
+CompileScript: <<
+./configure --prefix=%p --libdir=%i/lib/ocaml/site-lib/ocamlgraph --bindir=%p/bin --mandir=%p/share/man
+make
+<<
+InstallScript: <<
+make install DESTDIR=%d
+mkdir -p %i/lib/ocaml/site-lib/
+mv %i/lib/ocaml/ocamlgraph %i/lib/ocaml/site-lib/ocamlgraph
+cp META %i/lib/ocaml/site-lib/ocamlgraph
+<<
+DocFiles: CHANGES COPYING CREDITS FAQ LICENSE README
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/ocamlgraph\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/ocamlgraph" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/ocamlgraph\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+Description: Graph library for OCaml
+DescDetail: <<
+* It provides an easy-to-use graph data structure together with
+  several operations and algorithms over graphs.  It is a reasonably
+  efficient imperative data structure for directed graphs with
+  vertices and edges labeled with integers.
+* Then ocamlgraph provides several other graph implementations for
+  those not satisfied with the one above. Some are persistent
+  (imutable) and other imperative (mutable). Some are directed and
+  other are not. Some have labels for vertices, or labels for edges,
+  or both. Some have abstract types for vertices. etc.  These
+  implementations are written as functors: you give the types of
+  vertices labels, edge labels, etc. and you get the data structure as
+  a result.
+* Finally, ocamlgraph provides several classic operations and
+  algorithms over graphs.  They are also written as functors
+  i.e. independently of the data structure for graphs. One consequence
+  is that you can define your own data structure for graphs and yet
+  re-use all the algorithms from this library -- you only need to
+  provide a few operations such as iterating over all vertices, over
+  the successors of a vertex, etc.
+<<
+License: GPL
+Homepage: http://ocamlgraph.lri.fr
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
