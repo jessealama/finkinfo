@@ -1,0 +1,44 @@
+Package: ocaml-camomile
+Version: 0.8.5
+Revision: 1
+Depends: ocaml, ocaml-findlib
+Source: https://github.com/yoriyuki/Camomile/archive/rel-%v.tar.gz
+Source-MD5: 057633cfb39abba5eb2d8b098ebf6581
+SourceDirectory: Camomile-rel-%v
+UseMaxBuildJobs: False
+BuildDepends: autoconf2.6, make, ocaml-cppo
+CompileScript: <<
+#!/bin/bash -ev
+cd Camomile
+autoconf
+./configure --prefix=%p
+make --jobs=1
+<<
+InstallScript: <<
+#!/bin/bash -ev
+cd Camomile
+make install-without-ocamlfind OCAMLLIB=%i/lib/ocaml/site-lib/camomile DATADIR=%i/share
+make install-data OCAMLLIB=%i/lib/ocaml/site-lib/camomile DATADIR=%i/share
+<<
+DocFiles: Camomile/COPYING Camomile/Changes Camomile/README
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/camomile\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/camomile" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/camomile\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+
+Description: Unicode for OCaml
+DescDetail: <<
+Camomile is a Unicode library for objective caml (a. k. a. OCaml or
+O'Caml) language. Camomile provides Unicode character type, UTF-8,
+UTF-16, UTF-32 strings, conversion to/from about 200 encodings,
+collation and locale-sensitive case mappings, and more. The library is
+currently designed for Unicode Standard 3.2.
+<<
+License: GPL
+Homepage: https://github.com/yoriyuki/Camomile
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
