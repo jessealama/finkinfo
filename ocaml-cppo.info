@@ -1,0 +1,48 @@
+Package: ocaml-cppo
+Version: 1.0.0
+Revision: 1
+Depends: ocaml, ocaml-findlib
+Source: http://mjambon.com/releases/cppo/cppo-%v.tar.gz
+Source-MD5: 24c990f8f1da1b0f2ca15571560857bc
+UseMaxBuildJobs: False
+CompileScript: <<
+make PREFIX=%p
+<<
+InstallScript: <<
+mkdir -p %i/bin
+cp cppo %i/bin
+mkdir -p %i/lib/ocaml/site-lib/cppo
+cp META %i/lib/ocaml/site-lib/cppo
+cp *.cmi %i/lib/ocaml/site-lib/cppo
+cp *.cmx %i/lib/ocaml/site-lib/cppo
+cp *.o %i/lib/ocaml/site-lib/cppo
+<<
+DocFiles: Changes LICENSE README.md examples/
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/cppo\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/cppo" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/cppo\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+
+Description: C preprocessor for OCaml
+DescDetail: <<
+Cppo is an equivalent of the C preprocessor targeted at the OCaml
+language and its variants.
+
+The main purpose of cppo is to provide a lightweight tool for simple
+macro substitution (#define) and file inclusion (#include) for the
+occasional case when this is useful in OCaml. Processing specific
+sections of files by calling external programs is also possible via
+#ext directives.
+
+The implementation of cppo relies on the standard library of OCaml and
+on the standard parsing tools Ocamllex and Ocamlyacc, which contribute
+to the robustness of cppo across OCaml versions.
+<<
+License: BSD
+Homepage: http://mjambon.com/cppo.html
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
