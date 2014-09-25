@@ -1,0 +1,47 @@
+Package: ocaml-dose
+Version: 3.2.2
+Revision: 1
+Depends: <<
+    ocaml,
+    ocaml-findlib,
+    ocaml-re,
+    ocaml-cudf,
+    ocaml-extlib,
+    camlp4
+<<
+Source: https://gforge.inria.fr/frs/download.php/file/33677/dose3-%v.tar.gz
+Source-MD5: 3ffed1987a040024076c08f4a7af9b21
+UseMaxBuildJobs: False
+#PatchFile: %n.patch
+#PatchFile-MD5: f1ef3192d873f75a01754d8ad6b084c0
+#PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile} | patch -p1
+CompileScript: <<
+./configure --prefix=%p
+make
+<<
+InstallScript: <<
+make install DESTDIR=%d prefix=%p
+mkdir -p %i/lib/ocaml/site-lib/
+mv %i/lib/ocaml/dos %i/lib/ocaml/site-lib/dose
+cp META %i/lib/ocaml/site-lib/dose
+<<
+DocFiles: BUGS COPYING ChangeLog README TODO
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/dose\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/dose" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/dose\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+Description: Analysing library metadata
+DescDetail: <<
+Dose is a library and a collection of tools to perform large spectrum
+of analysis on package repositories. Dose manipulates packages
+repositories from different sources such as Debian, Rpm, Eclipse/Osgi
+and OpenCSW/Solaris.
+<<
+License: LGPL
+Homepage: http://dose.gforge.inria.fr/public_html/
+Maintainer: Jesse Alama <jesse.alama@gmail.com>

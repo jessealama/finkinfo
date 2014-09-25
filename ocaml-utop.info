@@ -1,0 +1,37 @@
+Package: ocaml-utop
+Version: 1.15
+Revision: 1
+Depends: ocaml, ocaml-findlib, ocaml-react, ocaml-lwt, ocaml-camomile, ocaml-zed, ocaml-lambda-term
+Source: https://github.com/diml/utop/archive/%v.tar.gz
+Source-MD5: f4734d80d8a32febcde953d5b9812f42
+CompileScript: <<
+./configure --prefix=%p
+make
+<<
+InstallScript: <<
+make install DESTDIR=%d
+mkdir -p %i/lib/ocaml/site-lib/
+mv %i/lib/ocaml/utop %i/lib/ocaml/site-lib/utop
+cp META %i/lib/ocaml/site-lib/utop
+<<
+DocFiles: CHANGES COPYING CREDITS FAQ LICENSE README
+PostInstScript: <<
+  if ! grep -q "%p/lib/ocaml/site-lib/utop\$" "%p/lib/ocaml/ld.conf"; then
+    echo "%p/lib/ocaml/site-lib/utop" >> "%p/lib/ocaml/ld.conf"
+  fi
+<<
+PreRmScript: <<
+  grep -v "%p/lib/ocaml/site-lib/utop\$" "%p/lib/ocaml/ld.conf" > "%p/lib/ocaml/ld.conf.tmp"
+  mv "%p/lib/ocaml/ld.conf.tmp" "%p/lib/ocaml/ld.conf"
+<<
+Description: Universal toplevel for OCaml
+DescDetail: <<
+utop is an improved toplevel for OCaml. It can run in a terminal or in
+Emacs. It supports line edition, history, real-time and context
+sensitive completion, colors, and more.
+
+It integrates with the tuareg and typerex modes in Emacs.
+<<
+License: OSI-Approved
+Homepage: https://github.com/diml/utop
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
