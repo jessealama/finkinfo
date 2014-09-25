@@ -1,0 +1,33 @@
+Package: httperf
+Version: 0.9.0
+Revision: 1
+Maintainer: Jesse Alama <jesse.alama@gmail.com>
+Source: https://httperf.googlecode.com/files/%n-%v.tar.gz
+Source-MD5: 2968c36b9ecf3d98fc1f2c1c9c0d9341
+BuildDepends: system-openssl-dev
+DocFiles: <<
+lib/COPYING.LIB
+NEWS
+COPYRIGHT
+README
+TODO
+AUTHORS
+<<
+SetCPPFLAGS: -I%p/lib/system-openssl/include
+# SetLDFLAGS: -L%p/lib/system-openssl/lib
+UseMaxBuildJobs: False
+CompileScript: <<
+./configure --mandir='%p/share/man' --with-ssl=%p/lib/system-openssl
+make
+<<
+Description: Measure webserver performance
+DescDetail: <<
+httperf is a tool for measuring web server performance.
+It is used for generating HTTP loads and for measuring server performance.
+<<
+InstallScript: <<
+cd build
+make install prefix=%i/share bindir=%i/bin mandir=%i/share/man
+<<
+License: GPL
+Homepage: http://www.hpl.hp.com/research/linux/httperf/
