@@ -1,72 +1,59 @@
 Info3: <<
 Package: ledger
-Version: 3.0.3
+Version: 3.1
 Revision: 1
 Source: https://github.com/ledger/ledger/archive/v%v.tar.gz
-Maintainer: Jesse Alama <jesse.alama@gmail.com>
+Maintainer: Jesse Alama <jessealama@fastmail.fm>
 Homepage: http://ledger-cli.org/
 License: BSD
 Description: Maintain double-entry ledgers
-Source-MD5: 481ef13c0ccfc5466ffc446672d492a5
+Source-MD5: f4389aae3ba96eb5590784db7fa614ca
 PatchFile: %n.patch
-PatchFile-MD5: fc76e86bd5118ba380dc55717933e2cb
+PatchFile-MD5: ee8428a1eeb16382bb48021714ed2351
 PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile} | patch -p1
 BuildDepends: <<
   gmp5,
-  libpcre1,
   libicu48-dev,
   libmpfr4,
-  expat1,
-  opensp5-dev,
-  libgettext8-dev,
-  libiconv-dev,
   cmake,
-  boost1.53.nopython | boost1.53.python27 | boost1.53.python32 | boost1.53.python33 | boost1.53.systempython,
-  fink (>= 0.24.12),
+  ninja,
+  boost1.55-nopython,
+  fink (>= 0.28),
   gmp5-shlibs,
-  libpcre1-shlibs,
 <<
 GCC: 4.0
-Shlibs: %p/lib/libledger.3.dylib 3.0.0 %n-shlibs (>= 3.0.3-1)
 SourceDirectory: %n-%v
 Depends: <<
   libicu48-shlibs,
   libmpfr4-shlibs,
-  expat1-shlibs,
-  opensp5-shlibs,
-  libgettext8-shlibs,
-  libiconv,
-  %n-shlibs,
-  boost1.53.nopython-shlibs | boost1.53.python27-shlibs | boost1.53.python32-shlibs | boost1.53.python33-shlibs | boost1.53.systempython-shlibs,
+  boost1.55-nopython-shlibs,
 <<
 Suggests: gnuplot
-SetCXXFLAGS: -I%p/include
-InfoDocs: ledger
+SetCXXFLAGS: -I%p/include -I%p/opt/boost-1_55/include -L%p/opt/boost-1_55/lib
+InfoDocs: ledger3.info
 CompileScript: <<
-  ./acprep --boost-include=%p/include/boost-1_53/include --boost-suffix=-mt config
-  ./acprep --boost-include=%p/include/boost-1_53/include --boost-suffix=-mt make
-  /usr/bin/makeinfo doc/ledger3.texi
-  /usr/bin/makeinfo doc/ledger-mode.texi
+./acprep --ninja --output=build --boost-include=%p/opt/boost-1_55/include --boost-suffix=-mt --prefix=%p opt make -- -DCMAKE_OSX_DEPLOYMENT_TARGET= -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_LIBRARY=OFF
+/usr/bin/makeinfo --no-split doc/ledger3.texi
+/usr/bin/makeinfo --no-split doc/ledger-mode.texi
 <<
 InstallScript: <<
-  # doc (man, info)
-  mkdir -p %i/share/man/man1
-  install -m 644 doc/ledger.1 %i/share/man/man1
+  ./acprep --ninja --output=build --boost-include=%p/opt/boost-1_55/include --boost-suffix=-mt opt make install -- -DCMAKE_OSX_DEPLOYMENT_TARGET= -DCMAKE_INSTALL_PREFIX=%i -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_LIBRARY=OFF
+  mkdir -p %i/lib
+  # adjust the install_name
+  # install_name_tool -change %d/lib/libledger.3.dylib %p/lib/libledger.3.dylib %i/lib/libledger.3.dylib
+  # info
   mkdir -p %i/share/info
-  find doc -mindepth 1 -maxdepth 1 -type f -name 'ledger3.info*' -exec install -m 644 {} %i/share/info/ ';'
-  find doc -mindepth 1 -maxdepth 1 -type f -name 'ledger-mode.info*' -exec install -m 644 {} %i/share/info/ ';'
+  install -m 644 ledger3.info %i/share/info
   # emacs
   mkdir -p %i/share/emacs/site-lisp/ledger
   find lisp -mindepth 1 -maxdepth 1 -type f -name '*.el' -exec install -m 644 {} %i/share/emacs/site-lisp/ledger ';'
+  install -m 644 ledger-mode.info %i/share/info
   mkdir -p %i/lib/emacsen-common/packages/install
   mkdir -p %i/lib/emacsen-common/packages/remove
   install -m 755 fink/emacsen-install %i/lib/emacsen-common/packages/install/%n
   install -m 755 fink/emacsen-remove %i/lib/emacsen-common/packages/remove/%n
   mkdir -p %i/etc/emacs/site-start.d
   install -m 644 fink/50ledger.el %i/etc/emacs/site-start.d
-  # dylibs
-  mkdir -p %i/lib
-  install -m 644 libledger.3.dylib %i/lib
 <<
 DocFiles: doc/LICENSE doc/LICENSE-utfcpp doc/grammar.y doc/GLOSSARY.md doc/NEWS
 DescDetail: <<
@@ -81,11 +68,12 @@ SplitOff: <<
   Depends: emacsen-common, ledger
   Description: Maintain a double-entry ledger with Emacs
   Files: <<
-    share/emacs/site-lisp/ledger/*.el
-    lib/emacsen-common/packages/install/%N
-    lib/emacsen-common/packages/remove/%N
-    etc/emacs/site-start.d/50ledger.el
+    share/emacs/site-lisp/ledger
+    lib/emacsen-common
+    etc
+    share/info/ledger-mode.info
   <<
+  InfoDocs: ledger-mode.info
   PreRmScript: <<
     mkdir -p %p/share/doc/ledger-el
     %p/lib/emacsen-common/emacs-package-remove %n
