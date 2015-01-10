@@ -3,4 +3,4 @@ diff -Naur saxon-base/saxon saxon-patched/saxon
 +++ saxon-patched/saxon	Thu Apr  3 20:30:17 2003
 @@ -0,0 +1,2 @@
 +#!/bin/sh
-+java -jar @PREFIX@/share/java/@PACKAGE@/saxon.jar $*
++java -cp @PREFIX@/share/java/@PACKAGE@/saxon9he.jar $*
