@@ -3,12 +3,12 @@ Version: 20081028
 Revision: 1
 Description: Schema converter based on RELAX NG
 License: OSI-Approved
-Maintainer: Jesse Alama <jesse.alama@gmail.com>
+Maintainer: Jesse Alama <jessealama@fastmail.fm>
 BuildDepends: fink (>= 0.24.12)
 Depends: jing
-Source: http://www.thaiopensource.com/download/%n-%v.zip
+Source: http://jing-trang.googlecode.com/files/%n-%v.zip
 SourceDirectory:
-Source-MD5: 9611ea59fda0f62fecc4a5017a72984e
+Source-MD5: 82607f4dc5dbef009d651e46074cd7a4
 PatchFile: %n.patch
 PatchFile-MD5: 52d05a4a99fba618f400eedc122cf71f
 PatchScript: <<
