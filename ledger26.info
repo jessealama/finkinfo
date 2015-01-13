@@ -78,7 +78,7 @@ the Gnuplot package.
 A vim configuration can be found in the `extras' subdirectory of the
 ledger documentation directory %p/share/doc/ledger .
 
-This package contains version 2.6.1 of ledger.  The most current
+This package contains version 2.6.3 of ledger.  The most current
 version of Ledger is available in the ledger package; ledger26 (this
 package) is provided for legacy purposes only.
 <<
