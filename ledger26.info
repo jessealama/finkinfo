@@ -57,7 +57,7 @@ InstallScript: <<
   mkdir -p %i/share/doc/ledger26/examples
   install -m 644 sample.dat %i/share/doc/ledger26/examples
   mkdir -p %i/share/info
-  install -m 644 ledger.info %i/share/info/ledger26
+  install -m 644 ledger.info %i/share/info
   mkdir -p %i/etc/emacs/site-start.d
   install -m 644 fink/50ledger.el %i/etc/emacs/site-start.d
 <<
