@@ -9,7 +9,7 @@ License: BSD
 Description: Maintain double-entry ledgers (LEGACY)
 Source-MD5: 6d5d8396b1cdde5f605854c7d21d1460
 PatchFile: %n.patch
-PatchFile-MD5: 8007625d7229777f5f5fbc3e81256710
+PatchFile-MD5: eedf1cf0eff3065f6ab28c9254d1420e
 PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile} | patch -p1
 BuildDepends: <<
   gmp5,
