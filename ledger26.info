@@ -21,6 +21,7 @@ BuildDepends: <<
   libgettext8-dev,
   libiconv-dev,
   fink (>= 0.24.12),
+  autoconf2.6,
 <<
 GCC: 4.0
 Depends: <<
@@ -37,6 +38,7 @@ Replaces: ledger
 SetCPPFLAGS: -I%p/include/libofx -I%p/include/w3c-libwww
 InfoDocs: ledger.info
 CompileScript: <<
+  autoreconf -fi
   EMACS="no" ./configure %c
   make
 <<
