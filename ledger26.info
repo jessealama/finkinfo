@@ -33,6 +33,7 @@ Depends: <<
 Suggests: gnuplot-bin
 Enhances: gnucash
 Conflicts: ledger
+Replaces: ledger
 SetCPPFLAGS: -I%p/include/libofx -I%p/include/w3c-libwww
 InfoDocs: ledger.info
 CompileScript: <<
@@ -91,10 +92,11 @@ SplitOff: <<
     libpcre1-shlibs,
   <<
   Conflicts: ledger-shlibs
+  Replaces: ledger-shlibs
   Files: lib/libamounts.0*.dylib lib/libledger-*.dylib
   Shlibs: <<
-    %p/lib/libledger-2.6.1.dylib 0.0.0 %n (>= 2.6.1-1)
-    %p/lib/libamounts.0.dylib 1.0.0 %n (>= 2.6.1-1)
+    %p/lib/libledger-2.6.3.dylib 0.0.0 %n (>= 2.6.3-1)
+    %p/lib/libamounts.0.dylib 1.0.0 %n (>= 2.6.3-1)
   <<
   DocFiles: LICENSE README NEWS TODO
 <<
@@ -102,8 +104,8 @@ SplitOff2: <<
   Package: %N-dev
   Depends: %N-shlibs (= %v-%r)
   Conflicts: ledger-dev
+  Replaces: ledger-dev
   BuildDependsOnly: true
-  Replaces: %N (<< 2.6.1-5)
   Files: include lib/libledger.{a,dylib,la} lib/libamounts.{a,dylib,la}
   DocFiles: LICENSE README NEWS TODO
 <<
@@ -111,6 +113,7 @@ SplitOff3: <<
   Package: ledger26-el
   Depends: emacsen, ledger26
   Conflicts: ledger-el
+  Replaces: ledger-el
   Description: Maintain a double-entry ledger with Emacs
   Files: <<
     share/emacs/site-lisp/ledger26/ledger.el
