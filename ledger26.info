@@ -1,13 +1,13 @@
 Info3: <<
 Package: ledger26
-Version: 2.6.1
+Version: 2.6.3
 Revision: 1
 Source: mirror:sourceforge:%n/ledger-%v.tar.gz
 Maintainer: Jesse Alama <jessealama@fastmail.fm>
 Homepage: http://ledger-cli.org
 License: BSD
 Description: Maintain double-entry ledgers (LEGACY)
-Source-MD5: 7d2ebb3fbc0ca14e34f4aada9fe764a0
+Source-MD5: 6d5d8396b1cdde5f605854c7d21d1460
 PatchFile: %n.patch
 PatchFile-MD5: 8007625d7229777f5f5fbc3e81256710
 PatchScript: sed 's|@PREFIX@|%p|g' < %{PatchFile} | patch -p1
