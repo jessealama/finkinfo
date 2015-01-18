@@ -1,0 +1,31 @@
+Package: scowl
+Description: Spell Checker Oriented Word Lists
+Version: 2014.11.17
+Revision: 1
+Maintainer: Jesse Alama <jessealama@fastmail.fm>
+Source: mirror:sourceforge:wordlist/%n-%v.tar.gz
+Source-MD5: 6a7f13856e9286db3ee4b4316bec02d1
+DescDetail: <<
+SCOWL (Spell Checker Oriented Word Lists) and Friends is a database of
+information on English words useful for creating high-quality word
+lists suitable for use in spell checkers of most dialects of
+English. The database primary contains information on how common a
+word is, differences in spelling between the dialects if English,
+spelling variant information, and (basic) part-of-speech and
+inflection information.
+
+SCOWL itself is a compilation of the information in the database into
+a set of simple word lists that can be combined to create speller
+dictionaries of various sizes and dialects (American, British (both
+-ise and -ize) and Canadian).
+<<
+License: OSI-Approved
+Homepage: http://wordlist.aspell.net
+CompileScript: <<
+tar xf l.tar
+make all
+<<
+InstallScript: <<
+make install
+<<
+DocFiles: Copyright README
