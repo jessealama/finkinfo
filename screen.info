@@ -1,6 +1,6 @@
 Package: screen
 Description: Multiplex your terminal
-Version: 4.0.3
+Version: 4.2.1
 Revision: 1
 Maintainer: Jesse Alama <jesse.alama@gmail.com>
 DescDetail: <<
