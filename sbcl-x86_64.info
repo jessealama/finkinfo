@@ -1,6 +1,6 @@
 Package: sbcl
 Architecture: x86_64
-Version: 1.2.9
+Version: 1.2.10
 Revision: 1
 License: BSD
 Description: ANSI Common Lisp implementation
@@ -15,7 +15,7 @@ BuildDepends: fink (>= 0.24.12)
 
 Source: mirror:sourceforge:sbcl/sbcl-%v-source.tar.bz2
 Source2: mirror:sourceforge:sbcl/sbcl-1.1.6-x86-64-darwin-binary.tar.bz2
-Source-MD5: e23592dd0e424239b0ddc40f0df44ab0
+Source-MD5: 5b85a21dfbb5f9726843d95933c6d2f7
 Source2-MD5: 6540c1e36794fe5db6b022a0b77cc808
 UseMaxBuildJobs: false
 SourceDirectory: %n-%v
