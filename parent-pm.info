@@ -64,7 +64,7 @@ Homepage: http://search.cpan.org/dist/parent
 Source: mirror:cpan:authors/id/C/CO/CORION/parent-%v.tar.gz
 Source-MD5: e89c37813e8497f1d8bbf223ab18a02d
 
-Type: perl (5.8.6 5.8.8 5.10.0)
+Type: perl (5.8.6 5.8.8 5.10.0 5.18.2)
 UpdatePOD: true
 
 DocFiles: Changes
