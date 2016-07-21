@@ -28,7 +28,7 @@ DocFiles: <<
   use-cases
 <<
 DescDetail: <<
-Saxon 9.6 includes highly-conformant implementations of the latest W3C
+Saxon 9.7 includes highly-conformant implementations of the latest W3C
 Recommendations: XSLT 2.0, XQuery 3.0. XPath 3.0, and XSD 1.1. It also
 has an advanced implementation of the latest working draft of XSLT 3.0
 (which is nearly completion). See Standards Conformance for more
