@@ -15,7 +15,7 @@ BuildDepends: fink (>= 0.24.12)
 
 Source: mirror:sourceforge:sbcl/sbcl-%v-source.tar.bz2
 Source2: mirror:sourceforge:sbcl/sbcl-1.1.6-x86-64-darwin-binary.tar.bz2
-Source-MD5: 949031355e93a36b1467a6a942f90dd2
+Source-MD5: 59c8f49ffd68f02dd088161e2f0372b8
 Source2-MD5: 6540c1e36794fe5db6b022a0b77cc808
 UseMaxBuildJobs: false
 SourceDirectory: %n-%v
